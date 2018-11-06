@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherDataAnalysis", "WeatherDataAnalysis\WeatherDataAnalysis.csproj", "{A038F9B4-3415-43FA-AEC7-5E6552EAF2B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupCWeatherAnalysis", "WeatherDataAnalysis\GroupCWeatherAnalysis.csproj", "{A038F9B4-3415-43FA-AEC7-5E6552EAF2B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherDataAnalysisUnitTesting", "WeatherDataAnalysisUnitTesting\WeatherDataAnalysisUnitTesting.csproj", "{8D6C0852-3C4D-4790-8818-5C6E87ED54B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupCWeatherAnalysisTesting", "WeatherDataAnalysisUnitTesting\GroupCWeatherAnalysisTesting.csproj", "{8D6C0852-3C4D-4790-8818-5C6E87ED54B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

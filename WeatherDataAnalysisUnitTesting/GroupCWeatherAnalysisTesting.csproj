@@ -140,9 +140,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WeatherDataAnalysis\WeatherDataAnalysis.csproj">
+    <ProjectReference Include="..\WeatherDataAnalysis\GroupCWeatherAnalysis.csproj">
       <Project>{A038F9B4-3415-43FA-AEC7-5E6552EAF2B1}</Project>
-      <Name>WeatherDataAnalysis</Name>
+      <Name>GroupCWeatherAnalysis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
