@@ -1,0 +1,49 @@
+﻿<Page
+    x:Class="WeatherDataAnalysis.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <CommandBar>
+            <CommandBar.Content>
+                <Grid />
+            </CommandBar.Content>
+            <AppBarButton Icon="OpenFile" Label="Load File" Click="loadFile_Click" />
+            <AppBarButton Icon="Save" Label="Save File" Click="onSaveFile_Click" />
+        </CommandBar>
+
+        <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="7,132,0,0" VerticalAlignment="Top"
+                 TextWrapping="Wrap" Text="" Height="276" Width="600" IsReadOnly="True"
+                 AutomationProperties.Name="summaryTextBlock" />
+
+        <TextBlock HorizontalAlignment="Left" Margin="251,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                   Height="25" Width="123" TextAlignment="Center" HorizontalTextAlignment="Center">
+            <Run Text="Weather Analysis" /><LineBreak /><Run /><LineBreak /><Run />
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="7,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                   Height="25" Width="100" Text="MaxThreshold:" TextAlignment="Center" />
+        <TextBox x:Name="aboveThresholdTextBox" Text="90" Margin="109,86,0,0" HorizontalAlignment="Left"
+                 VerticalAlignment="Top" InputScope="Number" MaxLength="4"
+                 CharacterReceived="onAboveThresholdNewCharacter" />
+        <TextBlock HorizontalAlignment="Left" Margin="213,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                   Height="25" Width="100" Text="MinThreshold:" TextAlignment="Center" />
+        <TextBox x:Name="belowThresholdTextBox" Text="32" Margin="312,86,0,0" HorizontalAlignment="Left"
+                 VerticalAlignment="Top" InputScope="Number" MaxLength="4" Width="61"
+                 CharacterReceived="onBelowThresholdNewCharacter" />
+        <Button x:Name="clearDataButton" Content="Clear Data" HorizontalAlignment="Left" Margin="518,413,0,0"
+                VerticalAlignment="Top"
+                Click="onClearButton_Click" />
+        <TextBlock HorizontalAlignment="Left" Margin="458,92,0,0" Text="BucketSize:" TextWrapping="Wrap"
+                   VerticalAlignment="Top" Width="76" />
+        <ComboBox x:Name="bucketSizeComboBox" HorizontalAlignment="Left" Margin="543,86,0,0" VerticalAlignment="Top"
+                  ItemsSource="{x:Bind bucketSizes}"
+                  SelectionChanged="onSelectionChange" />
+        <Button x:Name="addDataButton" Content="Add Data" HorizontalAlignment="Left" Margin="7,413,0,0"
+                VerticalAlignment="Top" Click="onAddButton_Click" />
+
+    </Grid>
+</Page>
