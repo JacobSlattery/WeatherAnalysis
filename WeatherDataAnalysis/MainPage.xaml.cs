@@ -3,11 +3,13 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using WeatherDataAnalysis.ViewModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace WeatherDataAnalysis
 {
+
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -26,6 +28,8 @@ namespace WeatherDataAnalysis
         /// </summary>
         public const int ApplicationWidth = 615;
 
+        public WeatherAnalysisViewModel ViewModel;
+
         #endregion
 
         #region Constructors
@@ -37,6 +41,8 @@ namespace WeatherDataAnalysis
         public MainPage()
         {
             this.InitializeComponent();
+            this.ViewModel = new WeatherAnalysisViewModel();
+            this.DataContext = this.ViewModel;
 
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
@@ -46,6 +52,9 @@ namespace WeatherDataAnalysis
         #endregion
 
         #region Methods
+
+
+
 
         private void onAboveThresholdNewCharacter(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
