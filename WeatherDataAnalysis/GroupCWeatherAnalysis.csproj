@@ -99,8 +99,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataTier\WeatherCollectionXmlDeserializer.cs" />
     <Compile Include="DataTier\WeatherFileWriter.cs" />
     <Compile Include="DataTier\WeatherFileReader.cs" />
+    <Compile Include="DataTier\WeatherCollectionXmlSerializer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

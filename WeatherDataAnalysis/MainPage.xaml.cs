@@ -1,13 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+﻿using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using WeatherDataAnalysis.Controller;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
