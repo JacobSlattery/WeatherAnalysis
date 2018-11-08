@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -173,11 +175,27 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void saveToFile(object obj)
         {
-            var storageFolder = ApplicationData.Current.LocalFolder;
-            var sampleFile =
-                await storageFolder.CreateFileAsync("WeatherDataSave.csv", CreationCollisionOption.ReplaceExisting);
+                var fileSaver = new FileSavePicker
+                {
+                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+                };
+                fileSaver.FileTypeChoices.Add("CSV", new List<string> { ".csv" });
 
-            await new WeatherFileWriter().ParseWeatherDataCollectionToFile(this.weatherDataCollection, sampleFile);
+                var saveFile = await fileSaver.PickSaveFileAsync();
+
+                if (saveFile != null)
+                {
+                    CachedFileManager.DeferUpdates(saveFile);
+
+                    var dataForFile = new StringBuilder();
+                    foreach (var day in this.weatherDataCollection)
+                    {
+                        dataForFile.Append($"{day.Date.ToShortDateString()},{day.High},{day.Low}{Environment.NewLine}");
+                    }
+
+                    await FileIO.WriteTextAsync(saveFile, dataForFile.ToString());
+                }
+            
         }
 
         private async void addWeatherData(object obj)
