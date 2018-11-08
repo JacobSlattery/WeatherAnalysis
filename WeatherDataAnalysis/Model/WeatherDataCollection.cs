@@ -15,7 +15,7 @@ namespace WeatherDataAnalysis.Model
     {
         #region Data members
 
-        private readonly ICollection<WeatherData> weatherCollection;
+        public readonly ICollection<WeatherData> WeatherCollection;
 
         #endregion
 
@@ -25,13 +25,13 @@ namespace WeatherDataAnalysis.Model
         /// <summary>
         ///     Gets the number of elements contained in the <see cref="T:System.Collections.IList"></see>.
         /// </summary>
-        public int Count => this.weatherCollection.Count;
+        public int Count => this.WeatherCollection.Count;
 
         /// <inheritdoc />
         /// <summary>
         ///     Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.
         /// </summary>
-        public bool IsReadOnly => this.weatherCollection.IsReadOnly;
+        public bool IsReadOnly => this.WeatherCollection.IsReadOnly;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace WeatherDataAnalysis.Model
         /// </summary>
         public WeatherDataCollection()
         {
-            this.weatherCollection = new Collection<WeatherData>();
+            this.WeatherCollection = new Collection<WeatherData>();
         }
 
         /// <summary>
@@ -50,10 +50,10 @@ namespace WeatherDataAnalysis.Model
         ///     <see cref="WeatherData" />.
         /// </summary>
         /// <param name="weatherCollection">The weather collection.</param>
-        /// <exception cref="ArgumentNullException">weatherCollection - Cannot make a weather data collection from null</exception>
+        /// <exception cref="ArgumentNullException">WeatherCollection - Cannot make a weather data collection from null</exception>
         public WeatherDataCollection(ICollection<WeatherData> weatherCollection)
         {
-            this.weatherCollection = weatherCollection ?? throw new ArgumentNullException(nameof(weatherCollection),
+            this.WeatherCollection = weatherCollection ?? throw new ArgumentNullException(nameof(weatherCollection),
                                          "Cannot make a weather data collection from null");
         }
 
@@ -74,7 +74,7 @@ namespace WeatherDataAnalysis.Model
                 throw new ArgumentNullException(nameof(weatherData), "Cannot add a null object to the collection");
             }
 
-            this.weatherCollection.Add(weatherData);
+            this.WeatherCollection.Add(weatherData);
         }
 
         /// <inheritdoc />
@@ -83,7 +83,7 @@ namespace WeatherDataAnalysis.Model
         /// </summary>
         public void Clear()
         {
-            this.weatherCollection.Clear();
+            this.WeatherCollection.Clear();
         }
 
         /// <inheritdoc />
@@ -103,7 +103,7 @@ namespace WeatherDataAnalysis.Model
             }
 
             var value = false;
-            foreach (var currentWeather in this.weatherCollection)
+            foreach (var currentWeather in this.WeatherCollection)
             {
                 if (currentWeather.Date == weatherData.Date)
                 {
@@ -127,7 +127,7 @@ namespace WeatherDataAnalysis.Model
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(WeatherData[] array, int arrayIndex)
         {
-            this.weatherCollection.CopyTo(array, arrayIndex);
+            this.WeatherCollection.CopyTo(array, arrayIndex);
         }
 
         /// <inheritdoc />
@@ -138,7 +138,7 @@ namespace WeatherDataAnalysis.Model
         /// <returns></returns>
         public bool Remove(WeatherData weatherData)
         {
-            return this.weatherCollection.Remove(weatherData);
+            return this.WeatherCollection.Remove(weatherData);
         }
 
         /// <inheritdoc />
@@ -150,7 +150,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public IEnumerator<WeatherData> GetEnumerator()
         {
-            return this.weatherCollection.GetEnumerator();
+            return this.WeatherCollection.GetEnumerator();
         }
 
         /// <inheritdoc />
@@ -162,7 +162,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable) this.weatherCollection).GetEnumerator();
+            return ((IEnumerable) this.WeatherCollection).GetEnumerator();
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public IEnumerable<int> GetHighs()
         {
-            return this.weatherCollection.Select(weather => weather.High);
+            return this.WeatherCollection.Select(weather => weather.High);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public IEnumerable<int> GetLows()
         {
-            return this.weatherCollection.Select(weather => weather.Low);
+            return this.WeatherCollection.Select(weather => weather.Low);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace WeatherDataAnalysis.Model
         /// <returns></returns>
         public bool ContainsWeatherDataWith(DateTime date)
         {
-            return this.weatherCollection.Select(weather => weather.Date).Contains(date);
+            return this.WeatherCollection.Select(weather => weather.Date).Contains(date);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace WeatherDataAnalysis.Model
         /// <returns>The weather at that date</returns>
         public WeatherData GetWeatherAtDate(DateTime date)
         {
-            return this.weatherCollection.Single(weather => weather.Date == date);
+            return this.WeatherCollection.Single(weather => weather.Date == date);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public IEnumerable<int> GetEachDistinctYear()
         {
-            return this.weatherCollection.Select(weather => weather.Date.Year).Distinct();
+            return this.WeatherCollection.Select(weather => weather.Date.Year).Distinct();
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public ICollection<WeatherData> GetWeatherDataForYear(int year)
         {
-            var yearData = this.weatherCollection.Where(weather => weather.Date.Year == year).ToList();
+            var yearData = this.WeatherCollection.Where(weather => weather.Date.Year == year).ToList();
 
             return yearData;
         }
@@ -421,7 +421,7 @@ namespace WeatherDataAnalysis.Model
         public int CountWeatherDataForMonth(int month, int year)
         {
             var monthData =
-                this.weatherCollection.Count(weather => weather.Date.Year == year && weather.Date.Month == month);
+                this.WeatherCollection.Count(weather => weather.Date.Year == year && weather.Date.Month == month);
 
             return monthData;
         }
