@@ -6,12 +6,15 @@ namespace WeatherDataAnalysisUnitTesting.WeatherData
     /// <summary>
     ///     Input                                   Expected Output
     ///     [10/10/10, 0, 0] & [10/10/10, 0, 0]     0
+    /// 
     ///     [10/9/10, 0, 0] & [10/10/10, 0, 0]      negative
     ///     [9/10/10, 0, 0] & [10/10/10, 0, 0]      negative
     ///     [10/10/9, 0, 0] & [10/10/10, 0, 0]      negative
+    /// 
     ///     [10/11/10, 0, 0] & [10/10/10, 0, 0]     positive
     ///     [11/10/10, 0, 0] & [10/10/10, 0, 0]     positive
     ///     [10/10/11, 0, 0] & [10/10/10, 0, 0]     positive
+    /// 
     ///     [1/1/1, 1, 0] & [1/1/1, 0, 0]           positive
     ///     [1/1/1, 0, 0] & [1/1/1, 1, 0]           negative
     ///     [1/1/1, 0, 0] & [1/1/1, 0, -1]          positive

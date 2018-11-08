@@ -29,7 +29,7 @@ namespace WeatherDataAnalysis.View.Report
         ///     Initializes a new instance of the <see cref="ReportBuilder" /> class.
         /// </summary>
         /// <param name="weatherCollection">The <see cref="WeatherDataCollection" /> data is retrieved from.</param>
-        /// <exception cref="ArgumentNullException">WeatherCollection - Cannot make a report builder with a null weather collection</exception>
+        /// <exception cref="ArgumentNullException">weatherCollection - Cannot make a report builder with a null weather collection</exception>
         public ReportBuilder(WeatherDataCollection weatherCollection)
         {
             this.weatherCollection = weatherCollection ?? throw new ArgumentNullException(nameof(weatherCollection),
@@ -53,20 +53,17 @@ namespace WeatherDataAnalysis.View.Report
         /// </returns>
         public string BuildFullReport(int aboveThreshold, int belowThreshold, int bucketRange)
         {
-            var output = string.Empty;
             this.aboveDegreeThreshold = aboveThreshold;
             this.belowDegreeThreshold = belowThreshold;
             this.bucketSize = bucketRange;
 
-            
+            var output = string.Empty;
             foreach (var year in this.weatherCollection.GetEachDistinctYear())
             {
                 output += this.buildFullYearReport(year) + Environment.NewLine + Environment.NewLine;
             }
 
-            output.TrimEnd();
-
-            return output;
+            return output.TrimEnd();
         }
 
         private string buildFullYearReport(int year)

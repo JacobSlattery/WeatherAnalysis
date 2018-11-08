@@ -36,6 +36,7 @@ namespace WeatherDataAnalysisUnitTesting.WeatherData
             Assert.AreEqual(date, weatherData.Date);
             Assert.IsTrue(weatherData.High == high);
             Assert.IsTrue(weatherData.Low == low);
+
         }
 
         #endregion

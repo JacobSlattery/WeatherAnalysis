@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -31,6 +33,16 @@ namespace WeatherDataAnalysis
         /// </summary>
         public const int ApplicationWidth = 615;
 
+        /// <summary>
+        ///     The bucket sizes
+        /// </summary>
+        private const int DefaultMaxThreshold = 90;
+
+        private const int DefaultMinThreshold = 32;
+        private const int DefaultBucketSize = 10;
+        private readonly Collection<int> bucketSizes = new Collection<int> {5, DefaultBucketSize, 20};
+        private readonly AnalysisController controller;
+
         #endregion
 
         #region Constructors
@@ -42,6 +54,9 @@ namespace WeatherDataAnalysis
         public MainPage()
         {
             this.InitializeComponent();
+            this.controller = new AnalysisController();
+            this.bucketSizeComboBox.ItemsSource = this.bucketSizes;
+            this.bucketSizeComboBox.SelectedItem = DefaultBucketSize;
 
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
@@ -52,14 +67,49 @@ namespace WeatherDataAnalysis
 
         #region Methods
 
+        private async void loadFile_Click(object sender, RoutedEventArgs e)
+        {
+            var file = await pickFileWithPickerAsync();
+
+            if (file != null)
+            {
+                await this.controller.HandleNewWeatherDataFile(file);
+                this.updateReport();
+            }
+        }
+
+        private static async Task<StorageFile> pickFileWithPickerAsync()
+        {
+            var openPicker = new FileOpenPicker {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            openPicker.FileTypeFilter.Add(".csv");
+            openPicker.FileTypeFilter.Add(".txt");
+
+            StorageFile file;
+            try
+            {
+                file = await openPicker.PickSingleFileAsync();
+            }
+            catch (NullReferenceException)
+            {
+                file = null;
+            }
+
+            return file;
+        }
+
         private void onAboveThresholdNewCharacter(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
             forceIntegerValue(this.aboveThresholdTextBox);
+            this.updateReport();
         }
 
         private void onBelowThresholdNewCharacter(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
             forceIntegerValue(this.belowThresholdTextBox);
+            this.updateReport();
         }
 
         private static void forceIntegerValue(TextBox textBox)
@@ -76,6 +126,70 @@ namespace WeatherDataAnalysis
             var pos = textBox.SelectionStart - 1;
             textBox.Text = textBox.Text.Remove(pos, 1);
             textBox.SelectionStart = pos;
+        }
+
+        private int getAboveDegreeThreshold()
+        {
+            int output;
+            try
+            {
+                output = int.Parse(this.aboveThresholdTextBox.Text);
+            }
+            catch
+            {
+                output = DefaultMaxThreshold;
+            }
+
+            return output;
+        }
+
+        private int getBelowDegreeThreshold()
+        {
+            int output;
+
+            try
+            {
+                output = int.Parse(this.belowThresholdTextBox.Text);
+            }
+            catch
+            {
+                output = DefaultMinThreshold;
+            }
+
+            return output;
+        }
+
+        private int getBucketSize()
+        {
+            return (int?) this.bucketSizeComboBox.SelectedItem ?? DefaultBucketSize;
+        }
+
+        private void updateReport()
+        {
+            this.summaryTextBox.Text = this.controller.CreateUpdatedReport(this.getAboveDegreeThreshold(),
+                this.getBelowDegreeThreshold(), this.getBucketSize());
+        }
+
+        private void onClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.controller.Clear();
+            this.updateReport();
+        }
+
+        private async void onAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            await this.controller.HandleAddWeather();
+            this.updateReport();
+        }
+
+        private void onSelectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            this.updateReport();
+        }
+
+        private void onSaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            this.controller.SaveWeatherDataToFile();
         }
 
         #endregion

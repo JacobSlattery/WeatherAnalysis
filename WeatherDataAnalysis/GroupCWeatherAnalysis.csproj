@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controller\AnalysisController.cs" />
     <Compile Include="DataTier\WeatherFileWriter.cs" />
     <Compile Include="DataTier\WeatherFileReader.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -106,8 +107,6 @@
     </Compile>
     <Compile Include="Model\WeatherData.cs" />
     <Compile Include="Model\WeatherDataCollection.cs" />
-    <Compile Include="Utility\RelayCommand.cs" />
-    <Compile Include="ViewModel\WeatherAnalysisViewModel.cs" />
     <Compile Include="View\AddDataDialog.xaml.cs">
       <DependentUpon>AddDataDialog.xaml</DependentUpon>
     </Compile>
