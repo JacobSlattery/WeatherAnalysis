@@ -85,6 +85,7 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 this.maxThreshold = value;
                 this.OnPropertyChanged(nameof(this.MaxThreshold));
+                this.UpdateDisplayCommand.OnCanExecuteChanged();
                 this.updateReport();
             }
         }
@@ -107,6 +108,7 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 this.report = value;
                 this.OnPropertyChanged(nameof(this.Report));
+                this.ClearAllDataCommand.OnCanExecuteChanged();
             }
         }
 
@@ -155,7 +157,7 @@ namespace WeatherDataAnalysis.ViewModel
         private bool canLoadFile(object obj) => true;
         private bool canSaveToFile(object obj) => true;
         private bool canAddWeatherData(object obj) => true;
-        private bool canClearData(object obj) => true;
+        private bool canClearData(object obj) => this.Report.Length > 0;
         private bool canUpdateDisplay(object obj) => true;
 
         private async void loadFile(object obj)
@@ -198,7 +200,7 @@ namespace WeatherDataAnalysis.ViewModel
 
         private void updateReport(object obj = null)
         {
-            this.Report = new ReportBuilder(this.weatherDataCollection).BuildFullReport(this.maxThreshold, this.minThreshold, this.SelectedBucketSize);
+            this.Report = new ReportBuilder(this.weatherDataCollection).BuildFullReport(this.maxThreshold, this.minThreshold, this.selectedBucketSize);
         }
 
         private static async Task<StorageFile> pickFileWithPickerAsync()
