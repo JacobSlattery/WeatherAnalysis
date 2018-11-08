@@ -129,6 +129,7 @@ namespace WeatherDataAnalysis.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            
         }
 
         private void loadProperties()
