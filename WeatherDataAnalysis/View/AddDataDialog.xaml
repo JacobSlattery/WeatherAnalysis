@@ -4,32 +4,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d"
     Title="Add Weather Data"
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
-    PrimaryButtonClick="onAddButtonClick"
-    IsPrimaryButtonEnabled="False">
+    IsPrimaryButtonEnabled="{Binding IsAddable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
     <Grid Padding="1, 1, 1, 1" Margin="1, 1, 1, 5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="127" />
             <ColumnDefinition Width="75" />
             <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="131" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="42" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
 
-        <CalendarDatePicker x:Name="calenderDataPicker" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
-                            VerticalAlignment="Center" DateChanged="handleNewDate" />
-        <TextBox x:Name="highTextBox" Grid.Column="1" Grid.Row="0" InputScope="Number" PlaceholderText="High"
-                 Margin="4, 5, 2, 5" KeyDown="handleHighBoxNewInput" KeyUp="handleHighBoxNewInput" />
-        <TextBox x:Name="lowTextBox" Grid.Column="2" Grid.Row="0" PlaceholderText="Low" Margin="2, 5, 2, 5"
-                 KeyDown="handleLowBoxNewInput" KeyUp="handleLowBoxNewInput" />
-        <TextBox x:Name="precipitationTextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Precipitation" HorizontalAlignment="Center" Margin="0,5.6,0,0" Text="&#xD;&#xA;" VerticalAlignment="Top" Width="141" Grid.ColumnSpan="2"/>
+
+        <CalendarDatePicker Date="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Left" Width="127"
+                            VerticalAlignment="Center" />
+        <TextBox Text="{Binding High, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" InputScope="Number" PlaceholderText="High" Margin="2, 5, 2, 5"
+                 extensions:TextBoxRegex.Regex="^(-?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
+        <TextBox Text="{Binding Low, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="0" InputScope="Number" PlaceholderText="Low" Margin="2, 5, 2, 5"
+                 extensions:TextBoxRegex.Regex="^(-?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
+        <TextBox Text="{Binding Precipitation, Mode=TwoWay, Converter={StaticResource PrecipitationConverter}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Grid.Row="0" InputScope="Number" PlaceholderText="Precipitation"
+                 HorizontalAlignment="Center" Margin="2, 5, 2, 5" VerticalAlignment="Top" Width="127" extensions:TextBoxRegex.Regex="^(\d*\.?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic"/>
 
 
     </Grid>

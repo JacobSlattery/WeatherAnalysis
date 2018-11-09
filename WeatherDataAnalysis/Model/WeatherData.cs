@@ -26,12 +26,9 @@ namespace WeatherDataAnalysis.Model
         public int Low { get; }
 
         /// <summary>
-        /// Gets the precipitation.
+        ///     Gets the precipitation.
         /// </summary>
-        /// <value>
-        /// The precipitation.
-        /// </value>
-        public double Precipitation { get;}
+        public double Precipitation { get; }
 
         #endregion
 
@@ -43,12 +40,18 @@ namespace WeatherDataAnalysis.Model
         /// <param name="date">The date.</param>
         /// <param name="high">The highest temperature.</param>
         /// <param name="low">The lowest temperature.</param>
+        /// <param name="precipitation">The precipitation.</param>
         /// <exception cref="ArgumentOutOfRangeException">high - High cannot be lower than the low</exception>
+        /// <exception cref="ArgumentOutOfRangeException">precipitation - Precipitation cannot be negative</exception>
         public WeatherData(DateTime date, int high, int low, double precipitation)
         {
             if (high < low)
             {
                 throw new ArgumentOutOfRangeException(nameof(high), "High cannot be lower than the low");
+            }
+            if (precipitation < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precipitation), "Precipitation cannot be negative");
             }
 
             this.Date = date;
@@ -91,7 +94,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public override string ToString()
         {
-            return $"{this.Date.ToShortDateString()} High:{this.High} Low:{this.Low}";
+            return $"{this.Date.ToShortDateString()} High:{this.High} Low:{this.Low} Precipitation:{this.Precipitation}";
         }
 
         #endregion

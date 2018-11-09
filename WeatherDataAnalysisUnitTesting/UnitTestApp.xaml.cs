@@ -12,7 +12,7 @@ namespace WeatherDataAnalysisUnitTesting
     /// <summary>
     ///     Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    internal sealed partial class App
+    public sealed partial class App
     {
         #region Constructors
 

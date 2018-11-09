@@ -8,6 +8,8 @@ namespace WeatherDataAnalysis.Utility
         private Action<object> execute;
         private Predicate<object> canExecute;
 
+
+
         public bool CanExecute(object parameter)
         {
             bool result = this.canExecute?.Invoke(parameter) ?? true;
@@ -37,6 +39,7 @@ namespace WeatherDataAnalysis.Utility
         {
             this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
+
     }
 
 }
