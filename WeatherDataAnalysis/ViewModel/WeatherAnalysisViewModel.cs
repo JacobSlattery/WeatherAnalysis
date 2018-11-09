@@ -49,6 +49,7 @@ namespace WeatherDataAnalysis.ViewModel
 
         public RelayCommand UpdateDisplayCommand { get; set; }
 
+
         public int SelectedBucketSize
         {
             get => this.selectedBucketSize;
@@ -75,8 +76,11 @@ namespace WeatherDataAnalysis.ViewModel
             get => this.selectedWeatherData;
             set
             {
-                this.selectedWeatherData = value;
-                this.OnPropertyChanged(nameof(this.SelectedBucketSize));
+                if (value != this.selectedWeatherData)
+                {
+                    this.selectedWeatherData = value;
+                    this.OnPropertyChanged(nameof(this.SelectedBucketSize));
+                }
             }
         }
 
@@ -85,10 +89,12 @@ namespace WeatherDataAnalysis.ViewModel
             get => this.maxThreshold;
             set
             {
-                this.maxThreshold = value;
-                this.OnPropertyChanged(nameof(this.MaxThreshold));
-                this.UpdateDisplayCommand.OnCanExecuteChanged();
-                this.updateReport();
+                if (value != this.maxThreshold)
+                {
+                    this.maxThreshold = value;
+                    this.OnPropertyChanged(nameof(this.MaxThreshold));
+                    this.updateReport();
+                }
             }
         }
 
@@ -97,9 +103,12 @@ namespace WeatherDataAnalysis.ViewModel
             get => this.minThreshold;
             set
             {
-                this.minThreshold = value;
-                this.OnPropertyChanged(nameof(this.MinThreshold));
-                this.updateReport();
+                if (value != this.minThreshold)
+                {
+                    this.minThreshold = value;
+                    this.OnPropertyChanged(nameof(this.MinThreshold));
+                    this.updateReport();
+                }
             }
         }
 
@@ -108,9 +117,14 @@ namespace WeatherDataAnalysis.ViewModel
             get => this.report;
             set
             {
-                this.report = value;
-                this.OnPropertyChanged(nameof(this.Report));
-                this.ClearAllDataCommand.OnCanExecuteChanged();
+                if (value != this.report)
+                {
+                    this.report = value;
+                    this.OnPropertyChanged(nameof(this.Report));
+                    this.SaveToFileCommand.OnCanExecuteChanged();
+                    this.ClearAllDataCommand.OnCanExecuteChanged();
+                }
+                
             }
         }
 
@@ -120,8 +134,9 @@ namespace WeatherDataAnalysis.ViewModel
 
         public WeatherAnalysisViewModel()
         {
-            this.loadProperties();
             this.loadCommands();
+            this.loadProperties();
+            
         }
 
         #endregion
@@ -133,7 +148,6 @@ namespace WeatherDataAnalysis.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            
         }
 
         private void loadProperties()
@@ -143,7 +157,7 @@ namespace WeatherDataAnalysis.ViewModel
             this.selectedBucketSize = this.BucketSizes[1];
             this.maxThreshold = 90;
             this.minThreshold = 32;
-            this.report = new ReportBuilder(this.weatherDataCollection).BuildFullReport(this.maxThreshold, this.minThreshold, this.SelectedBucketSize);
+            this.updateReport();
         }
 
         private void loadCommands()
@@ -157,9 +171,9 @@ namespace WeatherDataAnalysis.ViewModel
         }
 
         private bool canLoadFile(object obj) => true;
-        private bool canSaveToFile(object obj) => true;
+        private bool canSaveToFile(object obj) => this.weatherDataCollection.Count != 0;
         private bool canAddWeatherData(object obj) => true;
-        private bool canClearData(object obj) => this.Report.Length > 0;
+        private bool canClearData(object obj) => this.report.Length > 0;
         private bool canUpdateDisplay(object obj) => true;
 
         private async void loadFile(object obj)
@@ -175,27 +189,26 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void saveToFile(object obj)
         {
-                var fileSaver = new FileSavePicker
+            var fileSaver = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            fileSaver.FileTypeChoices.Add("CSV", new List<string> { ".csv" });
+
+            var saveFile = await fileSaver.PickSaveFileAsync();
+
+            if (saveFile != null)
+            {
+                CachedFileManager.DeferUpdates(saveFile);
+
+                var dataForFile = new StringBuilder();
+                foreach (var day in this.weatherDataCollection)
                 {
-                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary
-                };
-                fileSaver.FileTypeChoices.Add("CSV", new List<string> { ".csv" });
-
-                var saveFile = await fileSaver.PickSaveFileAsync();
-
-                if (saveFile != null)
-                {
-                    CachedFileManager.DeferUpdates(saveFile);
-
-                    var dataForFile = new StringBuilder();
-                    foreach (var day in this.weatherDataCollection)
-                    {
-                        dataForFile.Append($"{day.Date.ToShortDateString()},{day.High},{day.Low}{Environment.NewLine}");
-                    }
-
-                    await FileIO.WriteTextAsync(saveFile, dataForFile.ToString());
+                    dataForFile.Append($"{day.Date.ToShortDateString()},{day.High},{day.Low}{Environment.NewLine}");
                 }
-            
+
+                await FileIO.WriteTextAsync(saveFile, dataForFile.ToString());
+            }
         }
 
         private async void addWeatherData(object obj)

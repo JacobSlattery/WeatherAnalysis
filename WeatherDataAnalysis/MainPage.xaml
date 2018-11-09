@@ -10,11 +10,11 @@
     <Grid>
         <CommandBar>
             <AppBarButton Icon="OpenFile" Label="Load File" Command="{Binding LoadFileCommand}"/>
-            <AppBarButton Icon="Save" Label="Save File" Command="{Binding SaveToFileCommand}" />
+            <AppBarButton Icon="Save" Label="Save File" Command="{Binding SaveToFileCommand, UpdateSourceTrigger=PropertyChanged}" />
         </CommandBar>
 
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="7,132,0,0" VerticalAlignment="Top"
-                 TextWrapping="Wrap" Text="{Binding Report, Mode=TwoWay}" Height="276" Width="600" IsReadOnly="True"
+                 TextWrapping="Wrap" Text="{Binding Report, Mode=OneWay}" Height="276" Width="600" IsReadOnly="True"
                  AutomationProperties.Name="summaryTextBlock" />
 
         <TextBlock HorizontalAlignment="Left" Margin="251,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
@@ -30,13 +30,13 @@
                    Height="25" Width="100" Text="MinThreshold:" TextAlignment="Center" />
         <TextBox x:Name="belowThresholdTextBox" Text="{Binding MinThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="312,86,0,0" HorizontalAlignment="Left"
                  VerticalAlignment="Top" InputScope="Number" MaxLength="4" Width="61" />
-        <Button x:Name="clearDataButton" Command="{Binding ClearAllDataCommand, Mode=TwoWay}" Content="Clear Data" HorizontalAlignment="Left" Margin="518,413,0,0"
+        <Button x:Name="clearDataButton" Command="{Binding ClearAllDataCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Clear Data" HorizontalAlignment="Left" Margin="518,413,0,0"
                 VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="458,92,0,0" Text="BucketSize:" TextWrapping="Wrap"
                    VerticalAlignment="Top" Width="76" />
         <ComboBox x:Name="bucketSizeComboBox" HorizontalAlignment="Left" Margin="543,86,0,0" VerticalAlignment="Top"
                   ItemsSource="{Binding BucketSizes, Mode=TwoWay}" SelectedValue="{Binding SelectedBucketSize, Mode=TwoWay}" />
-        <Button x:Name="addDataButton" Command="{Binding AddWeatherDataCommand}" Content="Add Data" HorizontalAlignment="Left" Margin="7,413,0,0"
+        <Button x:Name="addDataButton" Command="{Binding AddWeatherDataCommand, Mode=OneTime}" Content="Add Data" HorizontalAlignment="Left" Margin="7,413,0,0"
                 VerticalAlignment="Top" />
 
     </Grid>
