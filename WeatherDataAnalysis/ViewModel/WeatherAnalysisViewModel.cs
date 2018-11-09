@@ -193,7 +193,8 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
-            fileSaver.FileTypeChoices.Add("CSV", new List<string> { ".csv" });
+            fileSaver.FileTypeChoices.Add("csv", new List<string> { ".csv" });
+            fileSaver.FileTypeChoices.Add("xml", new List<string>{".xml"});
 
             var saveFile = await fileSaver.PickSaveFileAsync();
 
@@ -201,13 +202,9 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 CachedFileManager.DeferUpdates(saveFile);
 
-                var dataForFile = new StringBuilder();
-                foreach (var day in this.weatherDataCollection)
-                {
-                    dataForFile.Append($"{day.Date.ToShortDateString()},{day.High},{day.Low}{Environment.NewLine}");
-                }
+                var fileWriter = new WeatherFileWriter();
 
-                await FileIO.WriteTextAsync(saveFile, dataForFile.ToString());
+                await fileWriter.ParseWeatherDataCollectionToFile(this.weatherDataCollection, saveFile);
             }
         }
 

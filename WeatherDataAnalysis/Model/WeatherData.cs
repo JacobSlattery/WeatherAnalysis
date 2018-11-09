@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace WeatherDataAnalysis.Model
 {
@@ -6,6 +7,7 @@ namespace WeatherDataAnalysis.Model
     /// <summary>
     ///     Weather class which stores the date of the weather along with the day's high and low temperature
     /// </summary>
+    [DataContract]
     public class WeatherData : IComparable<WeatherData>
     {
         #region Properties
@@ -13,17 +15,20 @@ namespace WeatherDataAnalysis.Model
         /// <summary>
         ///     Gets the weather date.
         /// </summary>
-        public DateTime Date { get; }
+        [DataMember]
+        public DateTime Date { get; set; }
 
         /// <summary>
         ///     Gets the high for the day.
         /// </summary>
-        public int High { get; }
+        [DataMember]
+        public int High { get; set; }
 
         /// <summary>
         ///     Gets the low for the day.
         /// </summary>
-        public int Low { get; }
+        [DataMember]
+        public int Low { get; set; }
 
         /// <summary>
         /// Gets the precipitation.
@@ -31,7 +36,8 @@ namespace WeatherDataAnalysis.Model
         /// <value>
         /// The precipitation.
         /// </value>
-        public double Precipitation { get;}
+        [DataMember]
+        public double Precipitation { get; set; }
 
         #endregion
 
@@ -56,6 +62,8 @@ namespace WeatherDataAnalysis.Model
             this.Low = low;
             this.Precipitation = precipitation;
         }
+
+        private WeatherData() {}
 
         #endregion
 

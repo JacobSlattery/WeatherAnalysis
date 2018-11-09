@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace WeatherDataAnalysis.Model
 {
@@ -11,10 +12,11 @@ namespace WeatherDataAnalysis.Model
     ///     A collection of <see cref="T:WeatherDataAnalysis.Model.WeatherData" /> that can be manipulated to find days of
     ///     significance.
     /// </summary>
+    [DataContract]
     public class WeatherDataCollection : ICollection<WeatherData>
     {
         #region Data members
-
+        [DataMember]
         public readonly ICollection<WeatherData> WeatherCollection;
 
         #endregion

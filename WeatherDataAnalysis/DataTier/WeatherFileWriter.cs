@@ -38,6 +38,18 @@ namespace WeatherDataAnalysis.DataTier
                     "Weather data collection cannot be null");
             }
 
+            if (file.FileType.Equals(".csv"))
+            {
+                await this.writeToCsvFile(weatherDataCollection, file);
+            }else if(file.FileType.Equals(".xml"))
+            {
+                WeatherCollectionXmlSerializer.WriteToXml(weatherDataCollection,file);
+            }
+                
+        }
+
+        private async Task writeToCsvFile(WeatherDataCollection weatherDataCollection, StorageFile file)
+        {
             var fileContents = string.Empty;
             foreach (var weatherData in weatherDataCollection.OrderBy(weather => weather.Date))
             {
@@ -50,7 +62,7 @@ namespace WeatherDataAnalysis.DataTier
         private string parseWeatherDataToFileFormat(WeatherData weatherData)
         {
             return
-                $"{weatherData.Date.ToShortDateString()}, {weatherData.High}, {weatherData.Low}{Environment.NewLine}";
+                $"{weatherData.Date.ToShortDateString()}, {weatherData.High}, {weatherData.Low}, {weatherData.Precipitation}{Environment.NewLine}";
         }
 
         #endregion
