@@ -28,7 +28,7 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         {
             var date = new DateTime(1, 1, 1);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(date, 0, 0)
+                new WeatherDataAnalysis.Model.WeatherData(date, 0, 0, 0.0)
             };
             Assert.IsTrue(weatherDataCollection.ContainsWeatherDataWith(date));
         }
@@ -38,9 +38,9 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         {
             var date = new DateTime(1, 1, 1);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(date, 0, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 2), 1, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 1), 2, 0)
+                new WeatherDataAnalysis.Model.WeatherData(date, 0, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 2), 1, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 1), 2, 0, 0.0)
             };
             Assert.IsTrue(weatherDataCollection.ContainsWeatherDataWith(date));
         }
@@ -50,9 +50,9 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         {
             var date = new DateTime(1, 1, 1);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(date, 0, 0),
-                new WeatherDataAnalysis.Model.WeatherData(date, 1, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 1), 2, 0)
+                new WeatherDataAnalysis.Model.WeatherData(date, 0, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(date, 1, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 1), 2, 0, 0.0)
             };
             Assert.IsTrue(weatherDataCollection.ContainsWeatherDataWith(date));
         }
@@ -62,9 +62,9 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         {
             var date = new DateTime(1, 1, 1);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 2, 1), 0, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 1), 1, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 2), 2, 0)
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 2, 1), 0, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 1), 1, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 2), 2, 0, 0.0)
             };
             Assert.IsFalse(weatherDataCollection.ContainsWeatherDataWith(date));
         }

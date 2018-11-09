@@ -81,14 +81,16 @@ namespace WeatherDataAnalysis.DataTier
             var date = DateTime.Parse(row[(int) Columns.Date]);
             var high = int.Parse(row[(int) Columns.High]);
             var low = int.Parse(row[(int) Columns.Low]);
-            return new WeatherData(date, high, low);
+            var precipitation = double.Parse(row[(int) Columns.Precipitation]);
+            return new WeatherData(date, high, low, precipitation);
         }
 
         private enum Columns
         {
             Date,
             High,
-            Low
+            Low,
+            Precipitation
         }
 
         #endregion

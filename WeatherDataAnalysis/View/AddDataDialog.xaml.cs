@@ -51,6 +51,7 @@ namespace WeatherDataAnalysis.View
         /// </value>
         public int Low { get; private set; }
 
+        public double Precipitation { get; private set; }
         #endregion
 
         #region Constructors
@@ -77,6 +78,7 @@ namespace WeatherDataAnalysis.View
                 this.DateTime = dateTimeOffset.Value.Date;
                 this.High = int.Parse(this.highTextBox.Text);
                 this.Low = int.Parse(this.lowTextBox.Text);
+                this.Precipitation = double.Parse(this.precipitationTextBox.Text);
             }
         }
 

@@ -29,7 +29,7 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         public void OneWeatherData()
         {
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 10, 10), 0, 0)
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 10, 10), 0, 0, 0.0)
             };
             var years = weatherDataCollection.GetEachDistinctYear();
             Assert.IsTrue(years.Contains(10));
@@ -39,9 +39,9 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         public void MultipleWeatherDataOneYear()
         {
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 0, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 1, 1),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 2, 2), 2, 2)
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 0, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 1, 1, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 2, 2), 2, 2, 0.0)
             };
             var years = weatherDataCollection.GetEachDistinctYear();
             var enumerable = years.ToList();
@@ -53,10 +53,10 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         public void MultipleYears()
         {
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 0, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(11, 1, 1), 1, 1),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 2),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 1)
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 0, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(11, 1, 1), 1, 1, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 2, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 1, 0.0)
             };
             var years = weatherDataCollection.GetEachDistinctYear();
             var enumerable = years.ToList();
@@ -70,10 +70,10 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         public void DoesNotContainSearchedYear()
         {
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 0, 0),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(11, 1, 1), 1, 1),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 2),
-                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 1)
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(10, 1, 1), 0, 0, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(11, 1, 1), 1, 1, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 2, 0.0),
+                new WeatherDataAnalysis.Model.WeatherData(new DateTime(100, 2, 2), 2, 1, 0.0)
             };
             var years = weatherDataCollection.GetEachDistinctYear();
             var enumerable = years.ToList();

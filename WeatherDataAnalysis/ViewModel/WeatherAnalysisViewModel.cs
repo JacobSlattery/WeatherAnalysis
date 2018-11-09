@@ -217,7 +217,7 @@ namespace WeatherDataAnalysis.ViewModel
             var result = await dialog.ShowAsync();
             if (result == AddDataDialog.Add)
             {
-                var weatherData = new WeatherData(dialog.DateTime, dialog.High, dialog.Low);
+                var weatherData = new WeatherData(dialog.DateTime, dialog.High, dialog.Low, dialog.Precipitation);
                 await this.handleNewWeatherData(weatherData);
                 this.updateReport();
             }

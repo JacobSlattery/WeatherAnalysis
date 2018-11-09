@@ -28,7 +28,7 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         [TestMethod]
         public void OneWeatherDataInCollection()
         {
-            var onlyWeather = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 1), 0, 0);
+            var onlyWeather = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 1), 0, 0, 0.0);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
                 onlyWeather
             };
@@ -40,8 +40,8 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         [TestMethod]
         public void MultipleWeatherDataInCollectionSameYearSameTemp()
         {
-            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 1), 0, 0);
-            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0);
+            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 1, 1), 0, 0, 0.0);
+            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0, 0.0);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
                 weather1,
                 weather2
@@ -55,8 +55,8 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         [TestMethod]
         public void MultipleWeatherDataInCollectionDifferentYearDifferentTemp()
         {
-            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 1, 1), 1, 0);
-            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0);
+            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 1, 1), 1, 0, 0.0);
+            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0, 0.0);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
                 weather1,
                 weather2
@@ -69,8 +69,8 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         [TestMethod]
         public void MultipleWeatherDataInCollectionDifferentYearDifferentTempDifferentNumber()
         {
-            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 1, 1), 1, 0);
-            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0);
+            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 1, 1), 1, 0, 0.0);
+            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0, 0.0);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
                 weather1,
                 weather2
@@ -83,8 +83,8 @@ namespace WeatherDataAnalysisUnitTesting.WeatherDataCollection
         [TestMethod]
         public void MultipleWeatherDataInCollectionDifferentYearDifferentTempNumberNotContained()
         {
-            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 1, 1), 1, 0);
-            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0);
+            var weather1 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(2, 1, 1), 1, 0, 0.0);
+            var weather2 = new WeatherDataAnalysis.Model.WeatherData(new DateTime(1, 2, 3), 0, 0, 0.0);
             var weatherDataCollection = new WeatherDataAnalysis.Model.WeatherDataCollection {
                 weather1,
                 weather2

@@ -25,6 +25,14 @@ namespace WeatherDataAnalysis.Model
         /// </summary>
         public int Low { get; }
 
+        /// <summary>
+        /// Gets the precipitation.
+        /// </summary>
+        /// <value>
+        /// The precipitation.
+        /// </value>
+        public double Precipitation { get;}
+
         #endregion
 
         #region Constructors
@@ -36,7 +44,7 @@ namespace WeatherDataAnalysis.Model
         /// <param name="high">The highest temperature.</param>
         /// <param name="low">The lowest temperature.</param>
         /// <exception cref="ArgumentOutOfRangeException">high - High cannot be lower than the low</exception>
-        public WeatherData(DateTime date, int high, int low)
+        public WeatherData(DateTime date, int high, int low, double precipitation)
         {
             if (high < low)
             {
@@ -46,6 +54,7 @@ namespace WeatherDataAnalysis.Model
             this.Date = date;
             this.High = high;
             this.Low = low;
+            this.Precipitation = precipitation;
         }
 
         #endregion

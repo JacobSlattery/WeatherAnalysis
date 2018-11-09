@@ -29,6 +29,7 @@
                  Margin="4, 5, 2, 5" KeyDown="handleHighBoxNewInput" KeyUp="handleHighBoxNewInput" />
         <TextBox x:Name="lowTextBox" Grid.Column="2" Grid.Row="0" PlaceholderText="Low" Margin="2, 5, 2, 5"
                  KeyDown="handleLowBoxNewInput" KeyUp="handleLowBoxNewInput" />
+        <TextBox x:Name="precipitationTextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Precipitation" HorizontalAlignment="Center" Margin="0,5.6,0,0" Text="&#xD;&#xA;" VerticalAlignment="Top" Width="141" Grid.ColumnSpan="2"/>
 
 
     </Grid>
