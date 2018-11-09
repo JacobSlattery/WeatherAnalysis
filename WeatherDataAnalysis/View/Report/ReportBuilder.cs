@@ -110,25 +110,21 @@ namespace WeatherDataAnalysis.View.Report
                     $"Days with temp below {this.belowDegreeThreshold} degrees: {this.weatherCollection.CountDaysWithTemperatureUnderDegreeInYearInclusive(this.belowDegreeThreshold, year)}" +
                     Environment.NewLine;
 
-                output += $"High Histogram: {Environment.NewLine}{this.getHighHistogramFor(year)}";
-                output += $"Low Histogram:  {Environment.NewLine}{this.getLowHistogramFor(year)}" + Environment.NewLine;
+                output += this.getHistogramsFor(year);
+                output += Environment.NewLine;
             }
 
             return output;
         }
 
-        private string getHighHistogramFor(int year)
-        {
-            var weatherDataCollection = new WeatherDataCollection(this.weatherCollection.GetWeatherDataForYear(year));
-            var histogram = new Histogram(this.bucketSize);
-            return histogram.MakeHistogramFrom(weatherDataCollection.GetHighs().ToList());
-        }
 
-        private string getLowHistogramFor(int year)
+        private string getHistogramsFor(int year)
         {
+            var output = string.Empty;
             var weatherDataCollection = new WeatherDataCollection(this.weatherCollection.GetWeatherDataForYear(year));
-            var histogram = new Histogram(this.bucketSize);
-            return histogram.MakeHistogramFrom(weatherDataCollection.GetLows().ToList());
+            output += $"High Histogram: {Environment.NewLine}{Histogram.MakeHistogramFrom(weatherDataCollection.GetHighs(), this.bucketSize)}";
+            output += $"Low Histogram:  {Environment.NewLine}{Histogram.MakeHistogramFrom(weatherDataCollection.GetLows(), this.bucketSize)}";
+            return output;
         }
 
         private string buildMonthDisplay(int month, int year)

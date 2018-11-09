@@ -9,36 +9,6 @@ namespace WeatherDataAnalysis.View.Report
     /// </summary>
     internal class Histogram
     {
-        #region Properties
-
-        /// <summary>
-        ///     Gets the histogram bucket size.
-        /// </summary>
-        /// <value>
-        ///     The size of the histogram bucket.
-        /// </value>
-        public int BucketSize { get; }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Histogram" /> class.
-        /// </summary>
-        /// <param name="bucketSize">Size of the histogram bucket.</param>
-        /// <exception cref="ArgumentOutOfRangeException">bucketSize - Bucket size must be greater than 0</exception>
-        public Histogram(int bucketSize)
-        {
-            if (bucketSize < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(bucketSize), "Bucket size must be greater than 0");
-            }
-
-            this.BucketSize = bucketSize;
-        }
-
-        #endregion
 
         #region Methods
 
@@ -47,27 +17,34 @@ namespace WeatherDataAnalysis.View.Report
         ///     Histogram surrounds negatives with parenthesis.
         /// </summary>
         /// <param name="numbers">The numbers.</param>
+        /// <param name="bucketSize">The bucket size.</param>
         /// <returns>
         ///     A string of the complete histogram.
         /// </returns>
-        public string MakeHistogramFrom(ICollection<int> numbers)
+        public static string MakeHistogramFrom(IEnumerable<int> numbers, int bucketSize)
         {
-            var output = string.Empty;
-            var high = numbers.Max();
-            var low = numbers.Min();
+            if (bucketSize < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bucketSize), "Bucket size must be greater than 0");
+            }
 
-            var histogramHighestValue = getHistogramHighestValue(this.BucketSize, high);
-            var histogramLowestValue = getHistogramLowestValue(this.BucketSize, low);
+            var output = string.Empty;
+            var numbersList = numbers.ToList();
+            var high = numbersList.Max();
+            var low = numbersList.Min();
+
+            var histogramHighestValue = getHistogramHighestValue(bucketSize, high);
+            var histogramLowestValue = getHistogramLowestValue(bucketSize, low);
 
             if (histogramLowestValue == histogramHighestValue)
             {
                 histogramHighestValue++;
             }
 
-            for (var min = histogramLowestValue; min < histogramHighestValue; min += this.BucketSize)
+            for (var min = histogramLowestValue; min < histogramHighestValue; min += bucketSize)
             {
-                var max = min + this.BucketSize - 1;
-                var rangeCount = numbers.Count(number => number >= min && number <= max);
+                var max = min + bucketSize - 1;
+                var rangeCount = numbersList.Count(number => number >= min && number <= max);
                 var minString = min.ToString();
                 var maxString = max.ToString();
 
