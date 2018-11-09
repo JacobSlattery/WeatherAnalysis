@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Data;
+using WeatherDataAnalysis.ViewModel;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -14,7 +15,7 @@ namespace WeatherDataAnalysis.View
     /// <seealso cref="T:Windows.UI.Xaml.Controls.ContentDialog" />
     /// <seealso cref="T:Windows.UI.Xaml.Markup.IComponentConnector" />
     /// <seealso cref="T:Windows.UI.Xaml.Markup.IComponentConnector2" />
-    public sealed partial class AddDataDialog
+    public partial class AddDataDialog
     {
         #region Data members
 
@@ -27,31 +28,8 @@ namespace WeatherDataAnalysis.View
 
         #region Properties
 
-        /// <summary>
-        ///     Gets the <see cref="System.DateTime" /> given.
-        /// </summary>
-        /// <value>
-        ///     A <see cref="System.DateTime" />.
-        /// </value>
-        public DateTime DateTime { get; private set; }
+        public AddDataViewModel ViewModel { get; private set; }
 
-        /// <summary>
-        ///     Gets the high for the data.
-        /// </summary>
-        /// <value>
-        ///     An <see cref="int" /> representing the high.
-        /// </value>
-        public int High { get; private set; }
-
-        /// <summary>
-        ///     Gets the low for the data.
-        /// </summary>
-        /// <value>
-        ///     An <see cref="int" /> representing the low
-        /// </value>
-        public int Low { get; private set; }
-
-        public double Precipitation { get; private set; }
         #endregion
 
         #region Constructors
@@ -63,93 +41,13 @@ namespace WeatherDataAnalysis.View
         public AddDataDialog()
         {
             this.InitializeComponent();
+            this.ViewModel = new AddDataViewModel();
+            this.DataContext = this.ViewModel;
+
             DefaultButton = ContentDialogButton.Primary;
         }
 
         #endregion
 
-        #region Methods
-
-        private void onAddButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            var dateTimeOffset = this.calenderDataPicker.Date;
-            if (dateTimeOffset != null)
-            {
-                this.DateTime = dateTimeOffset.Value.Date;
-                this.High = int.Parse(this.highTextBox.Text);
-                this.Low = int.Parse(this.lowTextBox.Text);
-                this.Precipitation = double.Parse(this.precipitationTextBox.Text);
-            }
-        }
-
-        private void handleNewDate(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
-        {
-            this.updateAvailability();
-        }
-
-        private void handleHighBoxNewInput(object sender, KeyRoutedEventArgs e)
-        {
-            if (this.highTextBox.Text != string.Empty && this.highTextBox.Text != "-")
-            {
-                forceIntegerValue(this.highTextBox);
-            }
-
-            this.updateAvailability();
-        }
-
-        private void handleLowBoxNewInput(object sender, KeyRoutedEventArgs e)
-        {
-            if (this.lowTextBox.Text != string.Empty && this.lowTextBox.Text != "-")
-            {
-                forceIntegerValue(this.lowTextBox);
-            }
-
-            this.updateAvailability();
-        }
-
-        private static void forceIntegerValue(TextBox textBox)
-        {
-            int.TryParse(textBox.Text, out var result);
-            if (result == 0 && textBox.Text != string.Empty && textBox.Text != "-" && textBox.Text != "0")
-            {
-                deleteCharacter(textBox);
-            }
-        }
-
-        private static void deleteCharacter(TextBox textBox)
-        {
-            var pos = textBox.SelectionStart - 1;
-            textBox.Text = textBox.Text.Remove(pos, 1);
-            textBox.SelectionStart = pos;
-        }
-
-        private void updateAvailability()
-        {
-            if (this.isValidNumbers() && this.calenderDataPicker.Date != null)
-            {
-                IsPrimaryButtonEnabled = true;
-            }
-            else
-            {
-                IsPrimaryButtonEnabled = false;
-            }
-        }
-
-        private bool isValidNumbers()
-        {
-            var isValid = false;
-
-            var isHighParsed = int.TryParse(this.highTextBox.Text, out var highResult);
-            var isLowParsed = int.TryParse(this.lowTextBox.Text, out var lowResult);
-
-            if (isHighParsed && isLowParsed)
-            {
-                isValid = lowResult <= highResult;
-            }
-
-            return isValid;
-        }
-
-        #endregion
     }
 }

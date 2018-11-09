@@ -99,6 +99,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\PrecipitationConverter.cs" />
+    <Compile Include="Converter\TemperatureConverter.cs" />
     <Compile Include="DataTier\WeatherCollectionXmlDeserializer.cs" />
     <Compile Include="DataTier\WeatherFileWriter.cs" />
     <Compile Include="DataTier\WeatherFileReader.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Model\WeatherData.cs" />
     <Compile Include="Model\WeatherDataCollection.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
+    <Compile Include="ViewModel\AddDataViewModel.cs" />
     <Compile Include="ViewModel\WeatherAnalysisViewModel.cs" />
     <Compile Include="View\AddDataDialog.xaml.cs">
       <DependentUpon>AddDataDialog.xaml</DependentUpon>
@@ -163,7 +166,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.7</Version>
+      <Version>6.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>5.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
