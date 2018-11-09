@@ -155,6 +155,7 @@ namespace WeatherDataAnalysis.View.Report
 
         private string formatDatesIn(ICollection<WeatherData> weatherDataList)
         {
+            var oxfordCommaZone = weatherDataList.Count - 2;
             var output = string.Empty;
             for (var index = 0; index < weatherDataList.Count; index++)
             {
@@ -162,12 +163,12 @@ namespace WeatherDataAnalysis.View.Report
                 output +=
                     $"{this.monthList[currentData.Date.Month - 1]} {this.convertDayToContractionString(currentData.Date.Day)}";
 
-                if (index < weatherDataList.Count - 2)
+                if (index < oxfordCommaZone)
                 {
                     output += ", ";
                 }
 
-                if (index == weatherDataList.Count - 2)
+                if (index == oxfordCommaZone)
                 {
                     output += " and ";
                 }
@@ -202,7 +203,7 @@ namespace WeatherDataAnalysis.View.Report
 
         private string convertDayToContractionString(int day)
         {
-            if (day < 0 || day > 32)
+            if (day < 0 || day > 31)
             {
                 throw new ArgumentOutOfRangeException(nameof(day));
             }
