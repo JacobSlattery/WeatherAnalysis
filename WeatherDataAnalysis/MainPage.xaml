@@ -24,7 +24,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="7,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Height="25" Width="100" Text="MaxThreshold:" TextAlignment="Center" />
         <TextBox x:Name="aboveThresholdTextBox"
-                 Text="{Binding MaxThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="109,86,0,0"
+                 Text="{Binding MaxThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TemperatureConverter}}" Margin="109,86,0,0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Top" InputScope="Number" Width="61" extensions:TextBoxRegex.Regex="^(-?\d{0,4})$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
@@ -32,7 +32,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="213,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Height="25" Width="100" Text="MinThreshold:" TextAlignment="Center" />
         <TextBox x:Name="belowThresholdTextBox"
-                 Text="{Binding MinThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="312,86,0,0"
+                 Text="{Binding MinThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TemperatureConverter}}" Margin="312,86,0,0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Top" InputScope="Number" Width="61" extensions:TextBoxRegex.Regex="^(-?\d{0,4})$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WeatherDataAnalysis.Model;
 
-namespace WeatherDataAnalysis.ViewModel
+namespace WeatherDataAnalysis.ViewModel.Dialog
 {
     public class AddDataViewModel : INotifyPropertyChanged
     {

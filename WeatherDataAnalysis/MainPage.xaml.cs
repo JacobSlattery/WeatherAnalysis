@@ -1,6 +1,14 @@
-﻿using Windows.Foundation;
+﻿using System;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Controls;
+using WeatherDataAnalysis.Model;
+using WeatherDataAnalysis.View;
 using WeatherDataAnalysis.ViewModel;
+using WeatherDataAnalysis.ViewModel.Dialog;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -43,6 +51,45 @@ namespace WeatherDataAnalysis
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
+        }
+
+
+        public static async Task<StorageFile> PickFileWithPickerAsync()
+        {
+            var openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            openPicker.FileTypeFilter.Add(".csv");
+            openPicker.FileTypeFilter.Add(".txt");
+
+            StorageFile file;
+            try
+            {
+                file = await openPicker.PickSingleFileAsync();
+            }
+            catch (NullReferenceException)
+            {
+                file = null;
+            }
+
+            return file;
+        }
+
+
+        public static async Task<AddDataViewModel> ExecuteDialogForAddData()
+        {
+            AddDataViewModel viewModel = null;
+
+            var dialog = new AddDataDialog();
+            var result = await dialog.ShowAsync();
+            if (result == AddDataDialog.Add)
+            {
+                viewModel = dialog.ViewModel;
+            }
+
+            return viewModel;
         }
 
         #endregion

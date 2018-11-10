@@ -12,12 +12,16 @@ using WeatherDataAnalysis.Model;
 using WeatherDataAnalysis.Utility;
 using WeatherDataAnalysis.View;
 using WeatherDataAnalysis.View.Report;
+using WeatherDataAnalysis.ViewModel.Dialog;
 
 namespace WeatherDataAnalysis.ViewModel
 {
     public class WeatherAnalysisViewModel : INotifyPropertyChanged
     {
         #region Data members
+
+        private const int DefaultMaxThreshold = 90;
+        private const int DefaultMinThreshold = 32;
 
         private MultipleDataFromSameDayDialog sameDayDataDialog;
 
@@ -68,28 +72,43 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
-        public int MaxThreshold
+        public int? MaxThreshold
         {
             get => this.maxThreshold;
             set
             {
                 if (value != this.maxThreshold)
                 {
-                    this.maxThreshold = value;
+                    if (value == null)
+                    {
+                        this.maxThreshold = DefaultMaxThreshold;
+                    }
+                    else
+                    {
+                        this.maxThreshold = (int)value;
+                    }
                     this.OnPropertyChanged(nameof(this.MaxThreshold));
                     this.updateReport();
+
                 }
             }
         }
 
-        public int MinThreshold
+        public int? MinThreshold
         {
             get => this.minThreshold;
             set
             {
                 if (value != this.minThreshold)
                 {
-                    this.minThreshold = value;
+                    if (value == null)
+                    {
+                        this.minThreshold = DefaultMinThreshold;
+                    }
+                    else
+                    {
+                        this.minThreshold = (int)value;
+                    }
                     this.OnPropertyChanged(nameof(this.MinThreshold));
                     this.updateReport();
                 }
@@ -137,8 +156,8 @@ namespace WeatherDataAnalysis.ViewModel
             this.weatherDataCollection = new WeatherDataCollection();
             this.bucketSizes = new ObservableCollection<int> {5, 10, 20};
             this.selectedBucketSize = this.BucketSizes[1];
-            this.maxThreshold = 90;
-            this.minThreshold = 32;
+            this.maxThreshold = DefaultMaxThreshold;
+            this.minThreshold = DefaultMinThreshold;
             this.updateReport();
         }
 
@@ -178,7 +197,7 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void loadFile(object obj)
         {
-            var file = await pickFileWithPickerAsync();
+            var file = await MainPage.PickFileWithPickerAsync();
 
             if (file != null)
             {
@@ -209,21 +228,19 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void addWeatherData(object obj)
         {
-            var dialog = new AddDataDialog();
-            var result = await dialog.ShowAsync();
-            if (result == AddDataDialog.Add)
+            var viewModel = await MainPage.ExecuteDialogForAddData();
+            if (viewModelHasNonNullValues(viewModel))
             {
-                var viewModel = dialog.ViewModel;
-                if (viewModel.High != null && viewModel.Low != null && viewModel.Precipitation != null)
-                {
-                    var weatherData = new WeatherData(viewModel.Date.Date, (int)viewModel.High, (int)viewModel.Low,
-                        (double)viewModel.Precipitation);
-                    await this.handleNewWeatherData(weatherData);
-                    this.updateReport();
-                }
-                
-
+                // ReSharper disable twice PossibleInvalidOperationException
+                var weatherData = new WeatherData(viewModel.Date.Date, viewModel.High.Value, viewModel.Low.Value, viewModel.Precipitation.Value);
+                await this.handleNewWeatherData(weatherData);
+                this.updateReport();
             }
+        }
+
+        private static bool viewModelHasNonNullValues(AddDataViewModel viewModel)
+        {
+            return viewModel?.High != null && viewModel.Low != null && viewModel.Precipitation != null;
         }
 
         private void clearData(object obj)
@@ -236,28 +253,6 @@ namespace WeatherDataAnalysis.ViewModel
         {
             this.Report = new ReportBuilder(this.weatherDataCollection).BuildFullReport(this.maxThreshold,
                 this.minThreshold, this.selectedBucketSize);
-        }
-
-        private static async Task<StorageFile> pickFileWithPickerAsync()
-        {
-            var openPicker = new FileOpenPicker {
-                ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
-            };
-            openPicker.FileTypeFilter.Add(".csv");
-            openPicker.FileTypeFilter.Add(".txt");
-
-            StorageFile file;
-            try
-            {
-                file = await openPicker.PickSingleFileAsync();
-            }
-            catch (NullReferenceException)
-            {
-                file = null;
-            }
-
-            return file;
         }
 
         private async Task handleNewWeatherDataFile(StorageFile file)
@@ -303,8 +298,7 @@ namespace WeatherDataAnalysis.ViewModel
             }
             else if (newWeatherData.CompareTo(this.weatherDataCollection.GetWeatherAtDate(newWeatherData.Date)) != 0)
             {
-                await this.handleDifferentDataOnSameDate(newWeatherData,
-                    this.weatherDataCollection.GetWeatherAtDate(newWeatherData.Date));
+                await this.handleDifferentDataOnSameDate(newWeatherData, this.weatherDataCollection.GetWeatherAtDate(newWeatherData.Date));
             }
         }
 

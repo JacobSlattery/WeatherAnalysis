@@ -1,5 +1,5 @@
 ﻿using Windows.UI.Xaml.Controls;
-using WeatherDataAnalysis.ViewModel;
+using WeatherDataAnalysis.ViewModel.Dialog;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
