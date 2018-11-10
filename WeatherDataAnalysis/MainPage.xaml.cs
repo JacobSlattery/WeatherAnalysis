@@ -3,6 +3,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using WeatherDataAnalysis.View;
 using WeatherDataAnalysis.ViewModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -83,5 +84,10 @@ namespace WeatherDataAnalysis
         }
 
         #endregion
+
+        private void listViewButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ListViewPage), this.ViewModel.Days);
+        }
     }
 }

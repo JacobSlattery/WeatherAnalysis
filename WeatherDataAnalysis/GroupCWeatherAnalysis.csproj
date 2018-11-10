@@ -105,6 +105,7 @@
     <Compile Include="DataTier\WeatherFileWriter.cs" />
     <Compile Include="DataTier\WeatherFileReader.cs" />
     <Compile Include="DataTier\WeatherCollectionXmlSerializer.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -112,9 +113,13 @@
     <Compile Include="Model\WeatherDataCollection.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Compile Include="ViewModel\AddDataViewModel.cs" />
+    <Compile Include="ViewModel\ListViewViewModel.cs" />
     <Compile Include="ViewModel\WeatherAnalysisViewModel.cs" />
     <Compile Include="View\AddDataDialog.xaml.cs">
       <DependentUpon>AddDataDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ListViewPage.xaml.cs">
+      <DependentUpon>ListViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MultipleDataFromSameDayDialog.xaml.cs">
       <DependentUpon>MultipleDataFromSameDayDialog.xaml</DependentUpon>
@@ -152,6 +157,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\AddDataDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ListViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

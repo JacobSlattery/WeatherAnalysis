@@ -44,6 +44,7 @@
                 VerticalAlignment="Top" />
         <Button x:Name="clearDataButton" Command="{Binding ClearAllDataCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Clear Data" HorizontalAlignment="Left" Margin="518,413,0,0"
                 VerticalAlignment="Top"/>
+        <Button x:Name="listViewButton" Content="ListView" HorizontalAlignment="Left" Margin="251,605,0,0" VerticalAlignment="Top" Click="listViewButton_Click"/>
 
 
     </Grid>

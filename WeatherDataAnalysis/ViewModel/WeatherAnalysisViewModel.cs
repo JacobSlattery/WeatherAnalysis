@@ -349,5 +349,9 @@ namespace WeatherDataAnalysis.ViewModel
         }
 
         #endregion
+
+        public WeatherDataCollection Days => this.weatherDataCollection;
     }
+
+    
 }
