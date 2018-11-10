@@ -51,7 +51,12 @@ namespace WeatherDataAnalysis.Model
         {
             if (high < low)
             {
-                throw new ArgumentOutOfRangeException(nameof(high), "High cannot be lower than the low");
+                throw new ArgumentOutOfRangeException(nameof(high), "High cannot be lower than the low.");
+            }
+
+            if (precipitation < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precipitation), "Precipitation cannot be negative.");
             }
 
             this.Date = date;
@@ -60,27 +65,37 @@ namespace WeatherDataAnalysis.Model
             this.Precipitation = precipitation;
         }
 
-        private WeatherData()
-        {
-        }
-
         #endregion
 
         #region Methods
 
         /// <summary>
-        ///     Compares to another <see cref="WeatherData" /> object, with priority put to date, high, then low.
+        ///     Compares to another <see cref="WeatherData" /> object, with priority put to date, high, low, then precipitation.
         /// </summary>
         /// <param name="nextData">The <see cref="WeatherData" /> compared.</param>
-        /// <returns></returns>
+        /// <returns>
+        ///     0 if the same, negative or positive if less than or greater than.
+        /// </returns>
         public int CompareTo(WeatherData nextData)
         {
             int value;
             if (this.Date.CompareTo(nextData.Date) == 0)
             {
-                value = this.High.CompareTo(nextData.High) == 0
-                    ? this.Low.CompareTo(nextData.Low)
-                    : this.High.CompareTo(nextData.High);
+                if (this.High.CompareTo(nextData.High) == 0)
+                {
+                    if (this.Low.CompareTo(nextData.Low) == 0)
+                    {
+                        value = this.Precipitation.CompareTo(nextData.Precipitation);
+                    }
+                    else
+                    {
+                        value = this.Low.CompareTo(nextData.Low);
+                    }
+                }
+                else
+                {
+                    value = this.High.CompareTo(nextData.High);
+                }
             }
             else
             {
@@ -98,7 +113,7 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public override string ToString()
         {
-            return $"{this.Date.ToShortDateString()} High:{this.High} Low:{this.Low}";
+            return $"{this.Date.ToShortDateString()} High:{this.High} Low:{this.Low} Precipitation:{this.Precipitation}";
         }
 
         #endregion

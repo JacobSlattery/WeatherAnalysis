@@ -216,6 +216,8 @@ namespace WeatherDataAnalysis.ViewModel
                 var weatherData = new WeatherData(viewModel.Date.Date, viewModel.High.Value, viewModel.Low.Value,
                     viewModel.Precipitation.Value);
                 await this.handleNewWeatherData(weatherData);
+                this.keepAll = false;
+                this.replaceAll = false;
                 this.updateReport();
             }
         }
@@ -245,8 +247,6 @@ namespace WeatherDataAnalysis.ViewModel
                 await this.handleNewWeatherDataCollection(weathers);
             }
 
-            this.keepAll = false;
-            this.replaceAll = false;
             await this.reportUnreadLines(weatherFileReader);
         }
 
@@ -263,6 +263,8 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 this.weatherDataCollection = newWeatherDataCollection;
             }
+            this.keepAll = false;
+            this.replaceAll = false;
         }
 
         private async Task handleNewWeatherData(WeatherData newWeatherData)
