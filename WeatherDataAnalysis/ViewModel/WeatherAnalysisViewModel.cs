@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.UI.Xaml.Controls;
 using WeatherDataAnalysis.DataTier;
 using WeatherDataAnalysis.Model;
 using WeatherDataAnalysis.Utility;
@@ -22,19 +19,14 @@ namespace WeatherDataAnalysis.ViewModel
 
         private const int DefaultMaxThreshold = 90;
         private const int DefaultMinThreshold = 32;
-
-        private MultipleDataFromSameDayDialog sameDayDataDialog;
-
         private WeatherDataCollection weatherDataCollection;
-
         private WeatherData selectedWeatherData;
-
         private ObservableCollection<int> bucketSizes;
-
         private int selectedBucketSize;
         private int maxThreshold;
         private int minThreshold;
-
+        private bool replaceAll;
+        private bool keepAll;
         private string report;
 
         #endregion
@@ -48,8 +40,6 @@ namespace WeatherDataAnalysis.ViewModel
         public RelayCommand AddWeatherDataCommand { get; set; }
 
         public RelayCommand ClearAllDataCommand { get; set; }
-
-        public RelayCommand UpdateDisplayCommand { get; set; }
 
         public int SelectedBucketSize
         {
@@ -85,11 +75,11 @@ namespace WeatherDataAnalysis.ViewModel
                     }
                     else
                     {
-                        this.maxThreshold = (int)value;
+                        this.maxThreshold = (int) value;
                     }
+
                     this.OnPropertyChanged(nameof(this.MaxThreshold));
                     this.updateReport();
-
                 }
             }
         }
@@ -107,8 +97,9 @@ namespace WeatherDataAnalysis.ViewModel
                     }
                     else
                     {
-                        this.minThreshold = (int)value;
+                        this.minThreshold = (int) value;
                     }
+
                     this.OnPropertyChanged(nameof(this.MinThreshold));
                     this.updateReport();
                 }
@@ -158,6 +149,8 @@ namespace WeatherDataAnalysis.ViewModel
             this.selectedBucketSize = this.BucketSizes[1];
             this.maxThreshold = DefaultMaxThreshold;
             this.minThreshold = DefaultMinThreshold;
+            this.replaceAll = false;
+            this.keepAll = false;
             this.updateReport();
         }
 
@@ -167,7 +160,6 @@ namespace WeatherDataAnalysis.ViewModel
             this.SaveToFileCommand = new RelayCommand(this.saveToFile, this.canSaveToFile);
             this.AddWeatherDataCommand = new RelayCommand(this.addWeatherData, this.canAddWeatherData);
             this.ClearAllDataCommand = new RelayCommand(this.clearData, this.canClearData);
-            this.UpdateDisplayCommand = new RelayCommand(this.updateReport, this.canUpdateDisplay);
         }
 
         private bool canLoadFile(object obj)
@@ -190,14 +182,9 @@ namespace WeatherDataAnalysis.ViewModel
             return this.report.Length > 0;
         }
 
-        private bool canUpdateDisplay(object obj)
-        {
-            return true;
-        }
-
         private async void loadFile(object obj)
         {
-            var file = await MainPage.PickFileWithPickerAsync();
+            var file = await MainPage.PickFileWithOpenPicker();
 
             if (file != null)
             {
@@ -208,13 +195,7 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void saveToFile(object obj)
         {
-            var fileSaver = new FileSavePicker {
-                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
-            };
-            fileSaver.FileTypeChoices.Add("csv", new List<string> {".csv"});
-            fileSaver.FileTypeChoices.Add("xml", new List<string> {".xml"});
-
-            var saveFile = await fileSaver.PickSaveFileAsync();
+            var saveFile = await MainPage.PickFileWithSavePicker();
 
             if (saveFile != null)
             {
@@ -232,15 +213,11 @@ namespace WeatherDataAnalysis.ViewModel
             if (viewModelHasNonNullValues(viewModel))
             {
                 // ReSharper disable twice PossibleInvalidOperationException
-                var weatherData = new WeatherData(viewModel.Date.Date, viewModel.High.Value, viewModel.Low.Value, viewModel.Precipitation.Value);
+                var weatherData = new WeatherData(viewModel.Date.Date, viewModel.High.Value, viewModel.Low.Value,
+                    viewModel.Precipitation.Value);
                 await this.handleNewWeatherData(weatherData);
                 this.updateReport();
             }
-        }
-
-        private static bool viewModelHasNonNullValues(AddDataViewModel viewModel)
-        {
-            return viewModel?.High != null && viewModel.Low != null && viewModel.Precipitation != null;
         }
 
         private void clearData(object obj)
@@ -249,7 +226,7 @@ namespace WeatherDataAnalysis.ViewModel
             this.updateReport();
         }
 
-        private void updateReport(object obj = null)
+        private void updateReport()
         {
             this.Report = new ReportBuilder(this.weatherDataCollection).BuildFullReport(this.maxThreshold,
                 this.minThreshold, this.selectedBucketSize);
@@ -268,15 +245,14 @@ namespace WeatherDataAnalysis.ViewModel
                 await this.handleNewWeatherDataCollection(weathers);
             }
 
-            this.sameDayDataDialog = new MultipleDataFromSameDayDialog();
+            this.keepAll = false;
+            this.replaceAll = false;
             await this.reportUnreadLines(weatherFileReader);
         }
 
         private async Task handleNewWeatherDataCollection(WeatherDataCollection newWeatherDataCollection)
         {
-            var dialog = new MergeOrReplaceDialog();
-            var result = await dialog.ShowAsync();
-            if (result == MergeOrReplaceDialog.Merge)
+            if (await MainPage.ExecuteDialogForMergeOrReplace())
             {
                 foreach (var newWeatherData in newWeatherDataCollection)
                 {
@@ -298,30 +274,42 @@ namespace WeatherDataAnalysis.ViewModel
             }
             else if (newWeatherData.CompareTo(this.weatherDataCollection.GetWeatherAtDate(newWeatherData.Date)) != 0)
             {
-                await this.handleDifferentDataOnSameDate(newWeatherData, this.weatherDataCollection.GetWeatherAtDate(newWeatherData.Date));
+                await this.handleDifferentDataOnSameDate(newWeatherData,
+                    this.weatherDataCollection.GetWeatherAtDate(newWeatherData.Date));
             }
         }
 
         private async Task handleDifferentDataOnSameDate(WeatherData newWeatherData, WeatherData oldWeatherData)
         {
-            if (this.sameDayDataDialog.ReplaceAll)
+            if (this.replaceAll)
             {
                 this.weatherDataCollection.Add(newWeatherData);
                 this.weatherDataCollection.Remove(oldWeatherData);
             }
-            else if (!this.sameDayDataDialog.KeepAll)
+            else if (!this.keepAll)
             {
-                var message = $"Old Data: {oldWeatherData}" + Environment.NewLine +
-                              $"New Data: {newWeatherData}";
+                var viewModel = new MultipleDataFromSameDayViewModel();
+                var result = await MainPage.ExecuteMultipleDataOnSameDayDialog(oldWeatherData.ToString(),
+                    newWeatherData.ToString(), viewModel);
 
-                this.sameDayDataDialog = new MultipleDataFromSameDayDialog();
-                this.sameDayDataDialog.SetMessage(message);
-
-                var mergeOrKeepDialogResult = await this.sameDayDataDialog.ShowAsync();
-                if (mergeOrKeepDialogResult == MultipleDataFromSameDayDialog.Replace)
+                if (result == MultipleDataFromSameDayDialog.Replace)
                 {
+                    if (viewModel.IsChecked)
+                    {
+                        this.replaceAll = true;
+                        this.keepAll = false;
+                    }
+
                     this.weatherDataCollection.Add(newWeatherData);
                     this.weatherDataCollection.Remove(oldWeatherData);
+                }
+                else
+                {
+                    if (viewModel.IsChecked)
+                    {
+                        this.keepAll = true;
+                        this.replaceAll = false;
+                    }
                 }
             }
         }
@@ -334,16 +322,12 @@ namespace WeatherDataAnalysis.ViewModel
                 message += line + Environment.NewLine;
             }
 
-            var dialog = new ContentDialog {
-                Title = "Unreadable Lines",
-                Content = message,
-                PrimaryButtonText = "Ok",
-                DefaultButton = ContentDialogButton.Primary
-            };
-            if (message != string.Empty)
-            {
-                await dialog.ShowAsync();
-            }
+            await MainPage.DisplayUnreadLines(message);
+        }
+
+        private static bool viewModelHasNonNullValues(AddDataViewModel viewModel)
+        {
+            return viewModel?.High != null && viewModel.Low != null && viewModel.Precipitation != null;
         }
 
         #endregion

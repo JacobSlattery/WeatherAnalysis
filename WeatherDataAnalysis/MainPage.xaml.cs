@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
-using WeatherDataAnalysis.Model;
 using WeatherDataAnalysis.View;
 using WeatherDataAnalysis.ViewModel;
 using WeatherDataAnalysis.ViewModel.Dialog;
@@ -53,16 +53,19 @@ namespace WeatherDataAnalysis
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
         }
 
+        #endregion
 
-        public static async Task<StorageFile> PickFileWithPickerAsync()
+        #region Methods
+
+        public static async Task<StorageFile> PickFileWithOpenPicker()
         {
-            var openPicker = new FileOpenPicker
-            {
+            var openPicker = new FileOpenPicker {
                 ViewMode = PickerViewMode.Thumbnail,
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             openPicker.FileTypeFilter.Add(".csv");
             openPicker.FileTypeFilter.Add(".txt");
+            //openPicker.FileTypeFilter.Add(".xml");
 
             StorageFile file;
             try
@@ -77,6 +80,16 @@ namespace WeatherDataAnalysis
             return file;
         }
 
+        public static async Task<StorageFile> PickFileWithSavePicker()
+        {
+            var fileSaver = new FileSavePicker {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            fileSaver.FileTypeChoices.Add("csv", new List<string> {".csv"});
+            fileSaver.FileTypeChoices.Add("xml", new List<string> {".xml"});
+
+            return await fileSaver.PickSaveFileAsync();
+        }
 
         public static async Task<AddDataViewModel> ExecuteDialogForAddData()
         {
@@ -90,6 +103,39 @@ namespace WeatherDataAnalysis
             }
 
             return viewModel;
+        }
+
+        public static async Task<bool> ExecuteDialogForMergeOrReplace()
+        {
+            var dialog = new MergeOrReplaceDialog();
+            var result = await dialog.ShowAsync();
+            return result == MergeOrReplaceDialog.Merge;
+        }
+
+        public static async Task<ContentDialogResult> ExecuteMultipleDataOnSameDayDialog(string newData, string oldData,
+            MultipleDataFromSameDayViewModel viewModel)
+        {
+            var message = "Old Data: " + newData + Environment.NewLine +
+                          "New Data: " + oldData;
+
+            var dialog = new MultipleDataFromSameDayDialog(viewModel);
+            dialog.SetMessage(message);
+
+            return await dialog.ShowAsync();
+        }
+
+        public static async Task DisplayUnreadLines(string lines)
+        {
+            var dialog = new ContentDialog {
+                Title = "Unreadable Lines",
+                Content = lines,
+                PrimaryButtonText = "Ok",
+                DefaultButton = ContentDialogButton.Primary
+            };
+            if (lines != string.Empty)
+            {
+                await dialog.ShowAsync();
+            }
         }
 
         #endregion

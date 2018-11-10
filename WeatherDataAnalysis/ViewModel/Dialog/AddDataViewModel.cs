@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WeatherDataAnalysis.Model;
 
 namespace WeatherDataAnalysis.ViewModel.Dialog
 {
@@ -64,8 +63,6 @@ namespace WeatherDataAnalysis.ViewModel.Dialog
             }
         }
 
-        public WeatherData WeatherData { get; set; }
-
         public bool IsAddable
         {
             get => this.isAddable;
@@ -86,7 +83,6 @@ namespace WeatherDataAnalysis.ViewModel.Dialog
             this.high = null;
             this.low = null;
             this.precipitation = null;
-            this.WeatherData = null;
             this.isAddable = false;
         }
 

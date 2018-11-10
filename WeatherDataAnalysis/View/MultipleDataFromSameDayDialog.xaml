@@ -8,11 +8,12 @@
     Title="Multiple Data From Same Day"
     PrimaryButtonText="Replace"
     SecondaryButtonText="Keep"
-    PrimaryButtonClick="replaceButtonClick"
-    SecondaryButtonClick="keepButtonClick">
+    DefaultButton="Primary">
 
     <Grid>
-        <CheckBox x:Name="doForAllCheckBox" Content="Do For All" Grid.ColumnSpan="3" HorizontalAlignment="Left"
+        <CheckBox x:Name="doForAllCheckBox" Content="Do For All"
+                  IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3"
+                  HorizontalAlignment="Left"
                   Margin="0,49,0,0" VerticalAlignment="Top" Width="300" />
         <TextBlock x:Name="messageTextBlock" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="49"
                    HorizontalAlignment="Stretch" Margin="0,0,0,0" FontSize="14" />
