@@ -357,6 +357,20 @@ namespace WeatherDataAnalysis.Model
         }
 
         /// <summary>
+        ///     Gets the every weather data with highest precipitation for the year.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <returns>
+        ///     An <see cref="ICollection{WeatherData}" />
+        /// </returns>
+        public ICollection<WeatherData> GetEveryWeatherDataWithHighestPrecipitationFor(int year)
+        {
+            var yearData = this.GetWeatherDataForYear(year);
+            var maxPrecipitation = getMaxPrecipitationIn(yearData);
+            return yearData.Where(weather => weather.Precipitation.Equals(maxPrecipitation)).ToList();
+        }
+
+        /// <summary>
         ///     Gets the average high temperature for month.
         /// </summary>
         /// <param name="month">The month searched.</param>
@@ -364,7 +378,7 @@ namespace WeatherDataAnalysis.Model
         /// <returns>
         ///     A <see cref="double" /> of the average high temperature in the month.
         /// </returns>
-        public double? GetAverageHighTemperatureForMonth(int month, int year) //TODO
+        public double? GetAverageHighTemperatureForMonth(int month, int year)
         {
             var monthData = this.getWeatherDataForMonth(month, year);
             return getAverageHighTemperatureIn(monthData);
@@ -428,6 +442,12 @@ namespace WeatherDataAnalysis.Model
             return monthData;
         }
 
+        public double GetTotalPrecipitationForMonth(int month, int year)
+        {
+            var monthData = this.getWeatherDataForMonth(month, year);
+            return monthData.Sum(weather => weather.Precipitation);
+        }
+
         private ICollection<WeatherData> getWeatherDataForMonth(int month, int year)
         {
             var yearData = this.GetWeatherDataForYear(year);
@@ -436,8 +456,7 @@ namespace WeatherDataAnalysis.Model
             return monthList;
         }
 
-        private static ICollection<WeatherData> getEachWeatherWithMinTemperatureIn(
-            ICollection<WeatherData> weatherDataList)
+        private static ICollection<WeatherData> getEachWeatherWithMinTemperatureIn(ICollection<WeatherData> weatherDataList)
         {
             var minTemp = getMinTemperatureIn(weatherDataList);
             var weathersWithMinTemp = weatherDataList.Where(weather => weather.Low == minTemp).ToList();
@@ -490,6 +509,21 @@ namespace WeatherDataAnalysis.Model
             try
             {
                 value = weatherDataList.Max(weather => weather.Low);
+            }
+            catch (InvalidOperationException)
+            {
+                value = null;
+            }
+
+            return value;
+        }
+
+        private static double? getMaxPrecipitationIn(IEnumerable<WeatherData> weatherDataList)
+        {
+            double? value;
+            try
+            {
+                value = weatherDataList.Max(weather => weather.Precipitation);
             }
             catch (InvalidOperationException)
             {

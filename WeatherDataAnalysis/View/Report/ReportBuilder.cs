@@ -92,21 +92,23 @@ namespace WeatherDataAnalysis.View.Report
                 var lowestWeatherData = this.weatherCollection.GetEveryWeatherDataWithLowestTemperatureInYear(year);
                 var highestLows = this.weatherCollection.GetEveryWeatherDataWithMaxLowTemperatureInYear(year);
                 var lowestHighs = this.weatherCollection.GetEveryWeatherDataWithLowestHighTemperatureInYear(year);
+                var highestPrecipitations = this.weatherCollection.GetEveryWeatherDataWithHighestPrecipitationFor(year);
 
                 output = "Weather Data " + year + Environment.NewLine;
                 output += $"{this.formatHigh(highestWeatherData)}" + Environment.NewLine;
                 output += $"{this.formatLow(lowestWeatherData)}" + Environment.NewLine;
                 output += $"{this.formatLowestHigh(lowestHighs)}" + Environment.NewLine;
                 output += $"{this.formatHighestLow(highestLows)}" + Environment.NewLine;
-                output += $"Average high temp: {this.weatherCollection.GetAverageHighTemperatureForYear(year):F}" +
+                output += $"{this.formatPrecipitation(highestPrecipitations)}" + Environment.NewLine;
+                output += $"Average High: {this.weatherCollection.GetAverageHighTemperatureForYear(year):F}" +
                           Environment.NewLine;
-                output += $"Average low temp: {this.weatherCollection.GetAverageLowTemperatureForYear(year):F}" +
+                output += $"Average Low: {this.weatherCollection.GetAverageLowTemperatureForYear(year):F}" +
                           Environment.NewLine;
                 output +=
-                    $"Days with temp above {this.aboveDegreeThreshold} degrees: {this.weatherCollection.CountDaysWithTemperatureOverDegreeInYearInclusive(this.aboveDegreeThreshold, year)}" +
+                    $"Days with temperature above {this.aboveDegreeThreshold} degrees: {this.weatherCollection.CountDaysWithTemperatureOverDegreeInYearInclusive(this.aboveDegreeThreshold, year)}" +
                     Environment.NewLine;
                 output +=
-                    $"Days with temp below {this.belowDegreeThreshold} degrees: {this.weatherCollection.CountDaysWithTemperatureUnderDegreeInYearInclusive(this.belowDegreeThreshold, year)}" +
+                    $"Days with temperature below {this.belowDegreeThreshold} degrees: {this.weatherCollection.CountDaysWithTemperatureUnderDegreeInYearInclusive(this.belowDegreeThreshold, year)}" +
                     Environment.NewLine;
 
                 output += this.getHistogramsFor(year);
@@ -130,7 +132,7 @@ namespace WeatherDataAnalysis.View.Report
         private string buildMonthDisplay(int month, int year)
         {
             var monthDataCount = this.weatherCollection.CountWeatherDataForMonth(month, year);
-            var output = $"{this.monthList[month - 1]} {year} ({monthDataCount} days of data)";
+            var output = $"{this.monthList[month - 1]} {year} ({monthDataCount}/{DateTime.DaysInMonth(year, month)} days of data)";
             if (monthDataCount > 0)
             {
                 var highestWeatherData =
@@ -141,9 +143,10 @@ namespace WeatherDataAnalysis.View.Report
                 output = $"{this.monthList[month - 1]} {year} ({monthDataCount} days of data)" + Environment.NewLine;
                 output += $"{this.formatHigh(highestWeatherData)}" + Environment.NewLine;
                 output += $"{this.formatLow(lowestWeatherData)}" + Environment.NewLine;
-                output += $"Average high: {this.weatherCollection.GetAverageHighTemperatureForMonth(month, year):F}" +
+                output += $"Total Precipitation: {this.weatherCollection.GetTotalPrecipitationForMonth(month, year):F}" + Environment.NewLine;
+                output += $"Average High: {this.weatherCollection.GetAverageHighTemperatureForMonth(month, year):F}" +
                           Environment.NewLine;
-                output += $"Average low: {this.weatherCollection.GetAverageLowTemperatureForMonth(month, year):F}";
+                output += $"Average Low: {this.weatherCollection.GetAverageLowTemperatureForMonth(month, year):F}";
             }
 
             return output;
@@ -171,6 +174,12 @@ namespace WeatherDataAnalysis.View.Report
             }
 
             return output + ".";
+        }
+
+        private string formatPrecipitation(ICollection<WeatherData> everyHighestPrecipitation)
+        {
+            return
+                $"Highest Precipitation: {everyHighestPrecipitation.ElementAt(0).Precipitation:F} occured on {this.formatDatesIn(everyHighestPrecipitation)}";
         }
 
         private string formatHighestLow(ICollection<WeatherData> everyHighestLow)
