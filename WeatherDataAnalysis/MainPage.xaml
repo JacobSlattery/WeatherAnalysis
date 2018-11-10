@@ -16,7 +16,6 @@
             <AppBarButton Icon="OpenFile" Label="Load File" Command="{Binding LoadFileCommand}" />
         </CommandBar>
 
-
         <TextBlock HorizontalAlignment="Left" Text="Weather Analysis" Margin="251,54,0,0" TextWrapping="Wrap"
                    VerticalAlignment="Top"
                    Height="25" Width="123" TextAlignment="Center" HorizontalTextAlignment="Center" />
