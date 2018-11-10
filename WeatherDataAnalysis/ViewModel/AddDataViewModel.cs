@@ -2,20 +2,23 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WeatherDataAnalysis.Model;
-using WeatherDataAnalysis.Utility;
 
 namespace WeatherDataAnalysis.ViewModel
 {
     public class AddDataViewModel : INotifyPropertyChanged
     {
-
+        #region Data members
 
         private DateTimeOffset date;
         private int? high;
         private int? low;
         private double? precipitation;
 
+        private bool isAddable;
 
+        #endregion
+
+        #region Properties
 
         public DateTimeOffset Date
         {
@@ -27,6 +30,7 @@ namespace WeatherDataAnalysis.ViewModel
                 this.OnPropertyChanged(nameof(this.Date));
             }
         }
+
         public int? High
         {
             get => this.high;
@@ -54,7 +58,6 @@ namespace WeatherDataAnalysis.ViewModel
             get => this.precipitation;
             set
             {
-                var oldValue = this.precipitation;
                 this.precipitation = value;
                 this.isValidInput();
                 this.OnPropertyChanged(nameof(this.Precipitation));
@@ -62,8 +65,6 @@ namespace WeatherDataAnalysis.ViewModel
         }
 
         public WeatherData WeatherData { get; set; }
-
-        private bool isAddable;
 
         public bool IsAddable
         {
@@ -75,7 +76,9 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        #endregion
 
+        #region Constructors
 
         public AddDataViewModel()
         {
@@ -85,8 +88,11 @@ namespace WeatherDataAnalysis.ViewModel
             this.precipitation = null;
             this.WeatherData = null;
             this.isAddable = false;
-
         }
+
+        #endregion
+
+        #region Methods
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -97,8 +103,10 @@ namespace WeatherDataAnalysis.ViewModel
 
         private void isValidInput()
         {
-            this.IsAddable = this.high != null && this.low != null && this.precipitation != null && this.low <= this.high;
+            this.IsAddable = this.high != null && this.low != null && this.precipitation != null &&
+                             this.low <= this.high;
         }
 
+        #endregion
     }
 }

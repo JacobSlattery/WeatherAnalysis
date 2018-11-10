@@ -6,7 +6,7 @@
 
     <Application.Resources>
         <converter:PrecipitationConverter x:Key="PrecipitationConverter" />
-        <converter:TemperatureConverter x:Key="TemperatureConverter"/>
+        <converter:TemperatureConverter x:Key="TemperatureConverter" />
     </Application.Resources>
 
 </Application>

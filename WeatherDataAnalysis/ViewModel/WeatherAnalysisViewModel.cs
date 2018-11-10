@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -34,7 +33,6 @@ namespace WeatherDataAnalysis.ViewModel
 
         private string report;
 
-
         #endregion
 
         #region Properties
@@ -48,7 +46,6 @@ namespace WeatherDataAnalysis.ViewModel
         public RelayCommand ClearAllDataCommand { get; set; }
 
         public RelayCommand UpdateDisplayCommand { get; set; }
-
 
         public int SelectedBucketSize
         {
@@ -68,19 +65,6 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 this.bucketSizes = value;
                 this.OnPropertyChanged(nameof(this.BucketSizes));
-            }
-        }
-
-        public WeatherData SelectedWeatherData
-        {
-            get => this.selectedWeatherData;
-            set
-            {
-                if (value != this.selectedWeatherData)
-                {
-                    this.selectedWeatherData = value;
-                    this.OnPropertyChanged(nameof(this.SelectedBucketSize));
-                }
             }
         }
 
@@ -124,7 +108,6 @@ namespace WeatherDataAnalysis.ViewModel
                     this.SaveToFileCommand.OnCanExecuteChanged();
                     this.ClearAllDataCommand.OnCanExecuteChanged();
                 }
-                
             }
         }
 
@@ -136,7 +119,6 @@ namespace WeatherDataAnalysis.ViewModel
         {
             this.loadCommands();
             this.loadProperties();
-            
         }
 
         #endregion
@@ -153,7 +135,7 @@ namespace WeatherDataAnalysis.ViewModel
         private void loadProperties()
         {
             this.weatherDataCollection = new WeatherDataCollection();
-            this.bucketSizes = new ObservableCollection<int>() { 5, 10, 20 };
+            this.bucketSizes = new ObservableCollection<int> {5, 10, 20};
             this.selectedBucketSize = this.BucketSizes[1];
             this.maxThreshold = 90;
             this.minThreshold = 32;
@@ -167,14 +149,32 @@ namespace WeatherDataAnalysis.ViewModel
             this.AddWeatherDataCommand = new RelayCommand(this.addWeatherData, this.canAddWeatherData);
             this.ClearAllDataCommand = new RelayCommand(this.clearData, this.canClearData);
             this.UpdateDisplayCommand = new RelayCommand(this.updateReport, this.canUpdateDisplay);
-            
         }
 
-        private bool canLoadFile(object obj) => true;
-        private bool canSaveToFile(object obj) => this.weatherDataCollection.Count != 0;
-        private bool canAddWeatherData(object obj) => true;
-        private bool canClearData(object obj) => this.report.Length > 0;
-        private bool canUpdateDisplay(object obj) => true;
+        private bool canLoadFile(object obj)
+        {
+            return true;
+        }
+
+        private bool canSaveToFile(object obj)
+        {
+            return this.weatherDataCollection.Count != 0;
+        }
+
+        private bool canAddWeatherData(object obj)
+        {
+            return true;
+        }
+
+        private bool canClearData(object obj)
+        {
+            return this.report.Length > 0;
+        }
+
+        private bool canUpdateDisplay(object obj)
+        {
+            return true;
+        }
 
         private async void loadFile(object obj)
         {
@@ -189,12 +189,11 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void saveToFile(object obj)
         {
-            var fileSaver = new FileSavePicker
-            {
+            var fileSaver = new FileSavePicker {
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
-            fileSaver.FileTypeChoices.Add("csv", new List<string> { ".csv" });
-            fileSaver.FileTypeChoices.Add("xml", new List<string>{".xml"});
+            fileSaver.FileTypeChoices.Add("csv", new List<string> {".csv"});
+            fileSaver.FileTypeChoices.Add("xml", new List<string> {".xml"});
 
             var saveFile = await fileSaver.PickSaveFileAsync();
 
@@ -215,9 +214,15 @@ namespace WeatherDataAnalysis.ViewModel
             if (result == AddDataDialog.Add)
             {
                 var viewModel = dialog.ViewModel;
-                var weatherData = new WeatherData(viewModel.Date.Date, (int)viewModel.High, (int)viewModel.Low, (double)viewModel.Precipitation);
-                await this.handleNewWeatherData(weatherData);
-                this.updateReport();
+                if (viewModel.High != null && viewModel.Low != null && viewModel.Precipitation != null)
+                {
+                    var weatherData = new WeatherData(viewModel.Date.Date, (int)viewModel.High, (int)viewModel.Low,
+                        (double)viewModel.Precipitation);
+                    await this.handleNewWeatherData(weatherData);
+                    this.updateReport();
+                }
+                
+
             }
         }
 
@@ -229,13 +234,13 @@ namespace WeatherDataAnalysis.ViewModel
 
         private void updateReport(object obj = null)
         {
-            this.Report = new ReportBuilder(this.weatherDataCollection).BuildFullReport(this.maxThreshold, this.minThreshold, this.selectedBucketSize);
+            this.Report = new ReportBuilder(this.weatherDataCollection).BuildFullReport(this.maxThreshold,
+                this.minThreshold, this.selectedBucketSize);
         }
 
         private static async Task<StorageFile> pickFileWithPickerAsync()
         {
-            var openPicker = new FileOpenPicker
-            {
+            var openPicker = new FileOpenPicker {
                 ViewMode = PickerViewMode.Thumbnail,
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
@@ -335,8 +340,7 @@ namespace WeatherDataAnalysis.ViewModel
                 message += line + Environment.NewLine;
             }
 
-            var dialog = new ContentDialog
-            {
+            var dialog = new ContentDialog {
                 Title = "Unreadable Lines",
                 Content = message,
                 PrimaryButtonText = "Ok",

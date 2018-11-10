@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
 namespace WeatherDataAnalysis.Converter
 {
-    class TemperatureConverter : IValueConverter
+    internal class TemperatureConverter : IValueConverter
     {
+        #region Methods
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var temperatureValue = (int?) value;
@@ -49,8 +47,9 @@ namespace WeatherDataAnalysis.Converter
                 }
             }
 
-
             return output;
         }
+
+        #endregion
     }
 }

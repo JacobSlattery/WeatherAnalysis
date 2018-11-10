@@ -1,6 +1,4 @@
-﻿using System;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
+﻿using Windows.UI.Xaml.Controls;
 using WeatherDataAnalysis.ViewModel;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -28,7 +26,7 @@ namespace WeatherDataAnalysis.View
 
         #region Properties
 
-        public AddDataViewModel ViewModel { get; private set; }
+        public AddDataViewModel ViewModel { get; }
 
         #endregion
 
@@ -42,12 +40,11 @@ namespace WeatherDataAnalysis.View
         {
             this.InitializeComponent();
             this.ViewModel = new AddDataViewModel();
-            this.DataContext = this.ViewModel;
+            DataContext = this.ViewModel;
 
             DefaultButton = ContentDialogButton.Primary;
         }
 
         #endregion
-
     }
 }

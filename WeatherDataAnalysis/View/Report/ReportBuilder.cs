@@ -58,7 +58,6 @@ namespace WeatherDataAnalysis.View.Report
             this.belowDegreeThreshold = belowThreshold;
             this.bucketSize = bucketRange;
 
-            
             foreach (var year in this.weatherCollection.GetEachDistinctYear())
             {
                 output += this.buildFullYearReport(year) + Environment.NewLine + Environment.NewLine;
@@ -117,13 +116,14 @@ namespace WeatherDataAnalysis.View.Report
             return output;
         }
 
-
         private string getHistogramsFor(int year)
         {
             var output = string.Empty;
             var weatherDataCollection = new WeatherDataCollection(this.weatherCollection.GetWeatherDataForYear(year));
-            output += $"High Histogram: {Environment.NewLine}{Histogram.MakeHistogramFrom(weatherDataCollection.GetHighs(), this.bucketSize)}";
-            output += $"Low Histogram:  {Environment.NewLine}{Histogram.MakeHistogramFrom(weatherDataCollection.GetLows(), this.bucketSize)}";
+            output +=
+                $"High Histogram: {Environment.NewLine}{Histogram.MakeHistogramFrom(weatherDataCollection.GetHighs(), this.bucketSize)}";
+            output +=
+                $"Low Histogram:  {Environment.NewLine}{Histogram.MakeHistogramFrom(weatherDataCollection.GetLows(), this.bucketSize)}";
             return output;
         }
 

@@ -5,6 +5,8 @@ namespace WeatherDataAnalysis.Converter
 {
     public class PrecipitationConverter : IValueConverter
     {
+        #region Methods
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var precipitationValue = (double?) value;
@@ -14,7 +16,8 @@ namespace WeatherDataAnalysis.Converter
             if (precipitationValue == null || precipitationValue < 0)
             {
                 output = string.Empty;
-            } else
+            }
+            else
             {
                 output = precipitationValue.ToString();
             }
@@ -37,8 +40,9 @@ namespace WeatherDataAnalysis.Converter
                 output = result;
             }
 
-
             return output;
         }
+
+        #endregion
     }
 }

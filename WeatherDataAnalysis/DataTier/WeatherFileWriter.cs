@@ -41,11 +41,11 @@ namespace WeatherDataAnalysis.DataTier
             if (file.FileType.Equals(".csv"))
             {
                 await this.writeToCsvFile(weatherDataCollection, file);
-            }else if(file.FileType.Equals(".xml"))
-            {
-                WeatherCollectionXmlSerializer.WriteToXml(weatherDataCollection,file);
             }
-                
+            else if (file.FileType.Equals(".xml"))
+            {
+                WeatherCollectionXmlSerializer.WriteToXml(weatherDataCollection, file);
+            }
         }
 
         private async Task writeToCsvFile(WeatherDataCollection weatherDataCollection, StorageFile file)

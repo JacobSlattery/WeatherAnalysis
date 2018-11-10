@@ -9,7 +9,7 @@
     Title="Add Weather Data"
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
-    IsPrimaryButtonEnabled="{Binding IsAddable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+    IsPrimaryButtonEnabled="{Binding IsAddable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
     <Grid Padding="1, 1, 1, 1" Margin="1, 1, 1, 5">
         <Grid.ColumnDefinitions>
@@ -23,15 +23,22 @@
         </Grid.RowDefinitions>
 
 
-
-        <CalendarDatePicker Date="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Left" Width="127"
+        <CalendarDatePicker Date="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0"
+                            Grid.Row="0" HorizontalAlignment="Left" Width="127"
                             VerticalAlignment="Center" />
-        <TextBox Text="{Binding High, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" InputScope="Number" PlaceholderText="High" Margin="2, 5, 2, 5"
-                 extensions:TextBoxRegex.Regex="^(-?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
-        <TextBox Text="{Binding Low, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="0" InputScope="Number" PlaceholderText="Low" Margin="2, 5, 2, 5"
-                 extensions:TextBoxRegex.Regex="^(-?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
-        <TextBox Text="{Binding Precipitation, Mode=TwoWay, Converter={StaticResource PrecipitationConverter}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Grid.Row="0" InputScope="Number" PlaceholderText="Precipitation"
-                 HorizontalAlignment="Center" Margin="2, 5, 2, 5" VerticalAlignment="Top" Width="127" extensions:TextBoxRegex.Regex="^(\d*\.?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic"/>
+        <TextBox
+            Text="{Binding High, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}"
+            Grid.Column="1" Grid.Row="0" InputScope="Number" PlaceholderText="High" Margin="2, 5, 2, 5"
+            extensions:TextBoxRegex.Regex="^(-?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
+        <TextBox
+            Text="{Binding Low, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}"
+            Grid.Column="2" Grid.Row="0" InputScope="Number" PlaceholderText="Low" Margin="2, 5, 2, 5"
+            extensions:TextBoxRegex.Regex="^(-?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
+        <TextBox
+            Text="{Binding Precipitation, Mode=TwoWay, Converter={StaticResource PrecipitationConverter}, UpdateSourceTrigger=PropertyChanged}"
+            Grid.Column="3" Grid.Row="0" InputScope="Number" PlaceholderText="Precipitation"
+            HorizontalAlignment="Center" Margin="2, 5, 2, 5" VerticalAlignment="Top" Width="127"
+            extensions:TextBoxRegex.Regex="^(\d*\.?\d*)$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
 
 
     </Grid>

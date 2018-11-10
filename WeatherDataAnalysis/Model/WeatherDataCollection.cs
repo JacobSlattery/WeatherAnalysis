@@ -16,8 +16,8 @@ namespace WeatherDataAnalysis.Model
     public class WeatherDataCollection : ICollection<WeatherData>
     {
         #region Data members
-        [DataMember]
-        public readonly ICollection<WeatherData> WeatherCollection;
+
+        [DataMember] public readonly ICollection<WeatherData> WeatherCollection;
 
         #endregion
 

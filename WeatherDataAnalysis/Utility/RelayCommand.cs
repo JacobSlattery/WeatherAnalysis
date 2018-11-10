@@ -5,14 +5,28 @@ namespace WeatherDataAnalysis.Utility
 {
     public class RelayCommand : ICommand
     {
-        private Action<object> execute;
-        private Predicate<object> canExecute;
+        #region Data members
 
+        private readonly Action<object> execute;
+        private readonly Predicate<object> canExecute;
 
+        #endregion
+
+        #region Constructors
+
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        {
+            this.execute = execute;
+            this.canExecute = canExecute;
+        }
+
+        #endregion
+
+        #region Methods
 
         public bool CanExecute(object parameter)
         {
-            bool result = this.canExecute?.Invoke(parameter) ?? true;
+            var result = this.canExecute?.Invoke(parameter) ?? true;
             return result;
         }
 
@@ -26,20 +40,14 @@ namespace WeatherDataAnalysis.Utility
 
         public event EventHandler CanExecuteChanged;
 
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
-        {
-            this.execute = execute;
-            this.canExecute = canExecute;
-        }
-
         /// <summary>
-        /// Typically, protected but made public, so can trigger a manual refresh on the result of CanExecute.
+        ///     Typically, protected but made public, so can trigger a manual refresh on the result of CanExecute.
         /// </summary>
         public virtual void OnCanExecuteChanged()
         {
             this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        #endregion
     }
-
 }

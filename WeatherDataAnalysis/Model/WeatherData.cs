@@ -31,11 +31,8 @@ namespace WeatherDataAnalysis.Model
         public int Low { get; set; }
 
         /// <summary>
-        /// Gets the precipitation.
+        ///     Gets the precipitation in inches.
         /// </summary>
-        /// <value>
-        /// The precipitation.
-        /// </value>
         [DataMember]
         public double Precipitation { get; set; }
 
@@ -63,7 +60,9 @@ namespace WeatherDataAnalysis.Model
             this.Precipitation = precipitation;
         }
 
-        private WeatherData() {}
+        private WeatherData()
+        {
+        }
 
         #endregion
 

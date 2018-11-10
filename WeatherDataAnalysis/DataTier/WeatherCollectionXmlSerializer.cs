@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
 using System.Xml.Serialization;
 using Windows.Storage;
 using WeatherDataAnalysis.Model;
@@ -10,6 +8,8 @@ namespace WeatherDataAnalysis.DataTier
 {
     public class WeatherCollectionXmlSerializer
     {
+        #region Methods
+
         public static async void WriteToXml(WeatherDataCollection weatherData, StorageFile file)
         {
             if (file == null)
@@ -23,12 +23,14 @@ namespace WeatherDataAnalysis.DataTier
                     "Weather data collection cannot be null");
             }
 
-            var knownTypes = new Type[] {typeof(WeatherData)};
+            var knownTypes = new[] {typeof(WeatherData)};
             var serializer = new XmlSerializer(typeof(WeatherDataCollection), knownTypes);
             var writer = new StringWriter();
             serializer.Serialize(writer, weatherData);
 
-            await FileIO.WriteTextAsync(file,writer.ToString());
+            await FileIO.WriteTextAsync(file, writer.ToString());
         }
+
+        #endregion
     }
 }

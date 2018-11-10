@@ -9,7 +9,6 @@ namespace WeatherDataAnalysis.View.Report
     /// </summary>
     internal class Histogram
     {
-
         #region Methods
 
         /// <summary>
