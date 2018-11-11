@@ -30,7 +30,7 @@ namespace WeatherDataAnalysis
         /// <summary>
         ///     The application width
         /// </summary>
-        public const int ApplicationWidth = 615;
+        public const int ApplicationWidth = 660;
 
         public WeatherAnalysisViewModel ViewModel;
 

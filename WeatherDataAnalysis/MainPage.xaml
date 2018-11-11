@@ -16,7 +16,7 @@
             <AppBarButton Icon="OpenFile" Label="Load File" Command="{Binding LoadFileCommand}" />
         </CommandBar>
 
-        <TextBlock HorizontalAlignment="Left" Text="Weather Analysis" Margin="251,54,0,0" TextWrapping="Wrap"
+        <TextBlock HorizontalAlignment="Left" Text="Weather Analysis" Margin="298,61,0,0" TextWrapping="Wrap"
                    VerticalAlignment="Top"
                    Height="25" Width="123" TextAlignment="Center" HorizontalTextAlignment="Center" />
 
@@ -29,18 +29,18 @@
                  VerticalAlignment="Top" InputScope="Number" Width="61" extensions:TextBoxRegex.Regex="^(-?\d{0,4})$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
 
-        <TextBlock HorizontalAlignment="Left" Margin="213,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+        <TextBlock HorizontalAlignment="Left" Margin="251,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Height="25" Width="100" Text="MinThreshold:" TextAlignment="Center" />
         <TextBox x:Name="belowThresholdTextBox"
                  Text="{Binding MinThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TemperatureConverter}}"
-                 Margin="312,86,0,0"
+                 Margin="356,86,0,0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Top" InputScope="Number" Width="61" extensions:TextBoxRegex.Regex="^(-?\d{0,4})$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
 
-        <TextBlock HorizontalAlignment="Left" Margin="458,92,0,0" Text="BucketSize:" TextWrapping="Wrap"
+        <TextBlock HorizontalAlignment="Left" Margin="509,92,0,0" Text="BucketSize:" TextWrapping="Wrap"
                    VerticalAlignment="Top" Width="76" />
-        <ComboBox x:Name="bucketSizeComboBox" HorizontalAlignment="Left" Margin="543,86,0,0" VerticalAlignment="Top"
+        <ComboBox x:Name="bucketSizeComboBox" HorizontalAlignment="Left" Margin="588,86,0,0" VerticalAlignment="Top"
                   ItemsSource="{Binding BucketSizes, Mode=OneWay}"
                   SelectedValue="{Binding SelectedBucketSize, Mode=TwoWay}" />
 
@@ -55,27 +55,23 @@
                 VerticalAlignment="Top" />
         <Button x:Name="clearDataButton"
                 Command="{Binding ClearAllDataCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Content="Clear Data" HorizontalAlignment="Left" Margin="518,413,0,0"
+                Content="Clear Data" HorizontalAlignment="Left" Margin="563,413,0,0"
                 VerticalAlignment="Top" />
-        <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="276" VerticalAlignment="Top" Width="295" Margin="312,132,0,0">
+        <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="276" VerticalAlignment="Top" Width="340" Margin="312,132,0,0">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="1">
+                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="1" >
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="85"/>
+                                <ColumnDefinition Width="85"/>
+                                <ColumnDefinition Width="85"/>
+                                <ColumnDefinition Width="85"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock HorizontalAlignment="Stretch" Grid.Row="0" 
-                                       Text="{Binding Date, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"/>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding High, Mode=TwoWay}" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Low, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Precipitation, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="0" Text="{Binding Date, Mode=TwoWay, Converter={StaticResource DateTimeConverter}}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding High, Mode=TwoWay}" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Text="{Binding Low, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="3" Text="{Binding Precipitation, Mode=TwoWay}" HorizontalAlignment="Center" />
                         </Grid>
                     </Border>
                 </DataTemplate>

@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\DateTimeConverter.cs" />
     <Compile Include="Converter\PrecipitationConverter.cs" />
     <Compile Include="Converter\TemperatureConverter.cs" />
     <Compile Include="DataTier\WeatherCollectionXmlDeserializer.cs" />
