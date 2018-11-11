@@ -58,9 +58,9 @@
                 Content="Clear Data" HorizontalAlignment="Left" Margin="563,413,0,0"
                 VerticalAlignment="Top" />
         <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="276" VerticalAlignment="Top" Width="340" Margin="312,132,0,0">
-            <ListView.ItemTemplate>
+            <ListViewItem HorizontalAlignment="Stretch" Height="46" Margin="0,0,0,0" VerticalAlignment="Stretch">
                 <DataTemplate>
-                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="1" >
+                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Height="auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="85"/>
@@ -75,10 +75,12 @@
                         </Grid>
                     </Border>
                 </DataTemplate>
-            </ListView.ItemTemplate>
+            </ListViewItem>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Height" Value="20" />
+                    <Setter Property="MinHeight" Value="20" />
                 </Style>
             </ListView.ItemContainerStyle>
 
