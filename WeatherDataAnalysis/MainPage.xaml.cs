@@ -84,6 +84,7 @@ namespace WeatherDataAnalysis
             var fileSaver = new FileSavePicker {
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
+            fileSaver.FileTypeChoices.Add(".", new List<string> { ".csv", ".xml"});
             fileSaver.FileTypeChoices.Add("csv", new List<string> {".csv"});
             fileSaver.FileTypeChoices.Add("xml", new List<string> {".xml"});
 
