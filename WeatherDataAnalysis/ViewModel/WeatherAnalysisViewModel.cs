@@ -65,7 +65,6 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
-
         public ObservableCollection<int> BucketSizes
         {
             get => this.bucketSizes;

@@ -140,7 +140,7 @@ namespace WeatherDataAnalysis.View.Report
                 var lowestWeatherData =
                     this.weatherCollection.GetEveryWeatherDataWithLowestTemperatureForMonth(month, year);
 
-                output = $"{this.monthList[month - 1]} {year} ({monthDataCount} days of data)" + Environment.NewLine;
+                output += Environment.NewLine;
                 output += $"{this.formatHigh(highestWeatherData)}" + Environment.NewLine;
                 output += $"{this.formatLow(lowestWeatherData)}" + Environment.NewLine;
                 output += $"Total Precipitation: {this.weatherCollection.GetTotalPrecipitationForMonth(month, year):F}" + Environment.NewLine;
