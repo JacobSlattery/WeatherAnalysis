@@ -66,13 +66,26 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
                             <TextBlock HorizontalAlignment="Stretch" Grid.Row="0" 
-                                       Text="{Binding Date, Mode=TwoWay}" />
-                            <TextBlock Grid.Row="1" Text="{Binding High, Mode=TwoWay}" />
+                                       Text="{Binding Date, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding High, Mode=TwoWay}" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Low, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Precipitation, Mode=TwoWay}" HorizontalAlignment="Center"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
         </ListView>
 
     </Grid>
