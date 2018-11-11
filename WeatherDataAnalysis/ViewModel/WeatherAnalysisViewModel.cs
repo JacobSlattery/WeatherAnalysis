@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -22,6 +23,8 @@ namespace WeatherDataAnalysis.ViewModel
         private const int DefaultMinThreshold = 32;
         private WeatherDataCollection weatherDataCollection;
         private ObservableCollection<WeatherData> days;
+        private int selectedYearFilter;
+        private ObservableCollection<int> years;
         private WeatherData selectedWeatherData;
         private ObservableCollection<int> bucketSizes;
         private int selectedBucketSize;
@@ -54,14 +57,38 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+
+        public int SelectedYearFilter
+        {
+            get => this.selectedYearFilter;
+            set
+            {
+                this.selectedYearFilter = value;
+                this.Days = this.weatherDataCollection.Where(x => x.Date.Year.Equals(this.selectedYearFilter))
+                                .ToObservableCollection();
+                this.OnPropertyChanged(nameof(this.Days));
+            }
+        }
+
+
         public ObservableCollection<WeatherData> Days
         {
             get => this.days;
             set
             {
-                this.days = value;
+                this.days = value.OrderBy(x => x.Date).ToObservableCollection();
                 this.OnPropertyChanged();
                 this.updateReport();
+            }
+        }
+
+        public ObservableCollection<int> Years
+        {
+            get => this.years;
+            set
+            {
+                this.years = value.OrderBy(x => x).ToObservableCollection();
+                this.OnPropertyChanged();
             }
         }
 
@@ -159,6 +186,7 @@ namespace WeatherDataAnalysis.ViewModel
         {
             this.weatherDataCollection = new WeatherDataCollection();
             this.Days = this.weatherDataCollection.ToObservableCollection();
+            this.Years = this.weatherDataCollection.FindAllYears().ToObservableCollection();
             this.bucketSizes = new ObservableCollection<int> {5, 10, 20};
             this.selectedBucketSize = this.BucketSizes[1];
             this.maxThreshold = DefaultMaxThreshold;
@@ -234,6 +262,7 @@ namespace WeatherDataAnalysis.ViewModel
                 this.replaceAll = false;
                 this.updateReport();
                 this.Days = this.weatherDataCollection.ToObservableCollection();
+                this.Years = this.weatherDataCollection.FindAllYears().ToObservableCollection();
             }
         }
 
@@ -241,6 +270,7 @@ namespace WeatherDataAnalysis.ViewModel
         {
             this.weatherDataCollection.Clear();
             this.Days = this.weatherDataCollection.ToObservableCollection();
+            this.Years = this.weatherDataCollection.FindAllYears().ToObservableCollection();
             this.updateReport();
         }
 
@@ -258,6 +288,7 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 this.weatherDataCollection = weathers;
                 this.Days = this.weatherDataCollection.ToObservableCollection();
+                this.Years = this.weatherDataCollection.FindAllYears().ToObservableCollection();
             }
             else
             {
@@ -280,6 +311,7 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 this.weatherDataCollection = newWeatherDataCollection;
                 this.Days = this.weatherDataCollection.ToObservableCollection();
+                this.Years = this.weatherDataCollection.FindAllYears().ToObservableCollection();
             }
             this.keepAll = false;
             this.replaceAll = false;
@@ -299,6 +331,7 @@ namespace WeatherDataAnalysis.ViewModel
             }
 
             this.Days = this.weatherDataCollection.ToObservableCollection();
+            this.Years = this.weatherDataCollection.FindAllYears().ToObservableCollection();
         }
 
         private async Task handleDifferentDataOnSameDate(WeatherData newWeatherData, WeatherData oldWeatherData)

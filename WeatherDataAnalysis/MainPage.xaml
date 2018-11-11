@@ -57,7 +57,7 @@
                 Command="{Binding ClearAllDataCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Content="Clear Data" HorizontalAlignment="Left" Margin="563,413,0,0"
                 VerticalAlignment="Top" />
-        <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="276" VerticalAlignment="Top" Width="340" Margin="312,132,0,0">
+        <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="276" VerticalAlignment="Top" Width="340" Margin="312,132,0,0"  >
             <ListViewItem HorizontalAlignment="Stretch" Height="46" Margin="0,0,0,0" VerticalAlignment="Stretch">
                 <DataTemplate>
                     <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Height="auto">
@@ -85,6 +85,7 @@
             </ListView.ItemContainerStyle>
 
         </ListView>
+        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Years, Mode=TwoWay}" SelectedItem="{Binding SelectedYearFilter, Mode=TwoWay}" Margin="281,408,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>
