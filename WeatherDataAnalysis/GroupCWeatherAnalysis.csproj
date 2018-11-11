@@ -105,6 +105,7 @@
     <Compile Include="DataTier\WeatherFileWriter.cs" />
     <Compile Include="DataTier\WeatherFileReader.cs" />
     <Compile Include="DataTier\WeatherCollectionXmlSerializer.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

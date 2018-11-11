@@ -47,7 +47,6 @@ namespace WeatherDataAnalysis
             this.InitializeComponent();
             this.ViewModel = new WeatherAnalysisViewModel();
             DataContext = this.ViewModel;
-
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));

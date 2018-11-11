@@ -46,7 +46,7 @@
 
 
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="7,132,0,0" VerticalAlignment="Top"
-                 TextWrapping="Wrap" Text="{Binding Report, Mode=OneWay}" Height="276" Width="600" IsReadOnly="True"
+                 TextWrapping="Wrap" Text="{Binding Report, Mode=OneWay}" Height="276" Width="300" IsReadOnly="True"
                  AutomationProperties.Name="summaryTextBlock" />
 
 
@@ -57,7 +57,23 @@
                 Command="{Binding ClearAllDataCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Content="Clear Data" HorizontalAlignment="Left" Margin="518,413,0,0"
                 VerticalAlignment="Top" />
-
+        <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="276" VerticalAlignment="Top" Width="295" Margin="312,132,0,0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock HorizontalAlignment="Stretch" Grid.Row="0" 
+                                       Text="{Binding Date, Mode=TwoWay}" />
+                            <TextBlock Grid.Row="1" Text="{Binding High, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
     </Grid>
 </Page>

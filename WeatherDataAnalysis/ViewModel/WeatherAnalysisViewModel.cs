@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using WeatherDataAnalysis.DataTier;
+using WeatherDataAnalysis.Extensions;
 using WeatherDataAnalysis.Model;
 using WeatherDataAnalysis.Utility;
 using WeatherDataAnalysis.View;
@@ -20,6 +21,7 @@ namespace WeatherDataAnalysis.ViewModel
         private const int DefaultMaxThreshold = 90;
         private const int DefaultMinThreshold = 32;
         private WeatherDataCollection weatherDataCollection;
+        private ObservableCollection<WeatherData> days;
         private WeatherData selectedWeatherData;
         private ObservableCollection<int> bucketSizes;
         private int selectedBucketSize;
@@ -51,6 +53,18 @@ namespace WeatherDataAnalysis.ViewModel
                 this.updateReport();
             }
         }
+
+        public ObservableCollection<WeatherData> Days
+        {
+            get => this.days;
+            set
+            {
+                this.days = value;
+                this.OnPropertyChanged();
+                this.updateReport();
+            }
+        }
+
 
         public ObservableCollection<int> BucketSizes
         {
@@ -145,6 +159,7 @@ namespace WeatherDataAnalysis.ViewModel
         private void loadProperties()
         {
             this.weatherDataCollection = new WeatherDataCollection();
+            this.Days = this.weatherDataCollection.ToObservableCollection();
             this.bucketSizes = new ObservableCollection<int> {5, 10, 20};
             this.selectedBucketSize = this.BucketSizes[1];
             this.maxThreshold = DefaultMaxThreshold;
@@ -219,12 +234,14 @@ namespace WeatherDataAnalysis.ViewModel
                 this.keepAll = false;
                 this.replaceAll = false;
                 this.updateReport();
+                this.Days = this.weatherDataCollection.ToObservableCollection();
             }
         }
 
         private void clearData(object obj)
         {
             this.weatherDataCollection.Clear();
+            this.Days = this.weatherDataCollection.ToObservableCollection();
             this.updateReport();
         }
 
@@ -241,6 +258,7 @@ namespace WeatherDataAnalysis.ViewModel
             if (this.weatherDataCollection.Count == 0)
             {
                 this.weatherDataCollection = weathers;
+                this.Days = this.weatherDataCollection.ToObservableCollection();
             }
             else
             {
@@ -262,6 +280,7 @@ namespace WeatherDataAnalysis.ViewModel
             else
             {
                 this.weatherDataCollection = newWeatherDataCollection;
+                this.Days = this.weatherDataCollection.ToObservableCollection();
             }
             this.keepAll = false;
             this.replaceAll = false;
@@ -279,6 +298,8 @@ namespace WeatherDataAnalysis.ViewModel
                 await this.handleDifferentDataOnSameDate(newWeatherData,
                     this.weatherDataCollection.GetWeatherAtDate(newWeatherData.Date));
             }
+
+            this.Days = this.weatherDataCollection.ToObservableCollection();
         }
 
         private async Task handleDifferentDataOnSameDate(WeatherData newWeatherData, WeatherData oldWeatherData)
