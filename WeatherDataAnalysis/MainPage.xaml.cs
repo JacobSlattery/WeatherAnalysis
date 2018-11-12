@@ -64,7 +64,7 @@ namespace WeatherDataAnalysis
             };
             openPicker.FileTypeFilter.Add(".csv");
             openPicker.FileTypeFilter.Add(".txt");
-            //openPicker.FileTypeFilter.Add(".xml");
+            openPicker.FileTypeFilter.Add(".xml");
 
             StorageFile file;
             try

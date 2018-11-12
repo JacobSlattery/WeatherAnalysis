@@ -283,7 +283,15 @@ namespace WeatherDataAnalysis.ViewModel
         private async Task handleNewWeatherDataFile(StorageFile file)
         {
             var weatherFileReader = new WeatherFileReader();
-            var weathers = await weatherFileReader.ReadFileToWeatherCollection(file);
+            var weathers = new WeatherDataCollection();
+            if (file.FileType.Equals(".csv"))
+            {
+                weathers = await weatherFileReader.ReadFileToWeatherCollection(file);
+            }else if (file.FileType.Equals(".xml"))
+            {
+                weathers = await WeatherCollectionXmlDeserializer.XmlToWeatherCollection(file);
+            }
+            
             if (this.weatherDataCollection.Count == 0)
             {
                 this.weatherDataCollection = weathers;
