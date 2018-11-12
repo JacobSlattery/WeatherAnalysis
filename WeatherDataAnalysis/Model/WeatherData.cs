@@ -67,8 +67,8 @@ namespace WeatherDataAnalysis.Model
 
         private WeatherData()
         {
-
         }
+
         #endregion
 
         #region Methods
@@ -117,7 +117,8 @@ namespace WeatherDataAnalysis.Model
         /// </returns>
         public override string ToString()
         {
-            return $"{this.Date.ToShortDateString()} High:{this.High} Low:{this.Low} Precipitation:{this.Precipitation}";
+            return
+                $"{this.Date.ToShortDateString()} High:{this.High} Low:{this.Low} Precipitation:{this.Precipitation}";
         }
 
         #endregion

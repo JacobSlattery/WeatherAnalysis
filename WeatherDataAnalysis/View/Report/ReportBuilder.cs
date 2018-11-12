@@ -131,7 +131,8 @@ namespace WeatherDataAnalysis.View.Report
         private string buildMonthDisplay(int month, int year)
         {
             var monthDataCount = this.weatherCollection.CountWeatherDataForMonth(month, year);
-            var output = $"{this.monthList[month - 1]} {year} ({monthDataCount}/{DateTime.DaysInMonth(year, month)} days of data)";
+            var output =
+                $"{this.monthList[month - 1]} {year} ({monthDataCount}/{DateTime.DaysInMonth(year, month)} days of data)";
             if (monthDataCount > 0)
             {
                 var highestWeatherData =
@@ -142,7 +143,9 @@ namespace WeatherDataAnalysis.View.Report
                 output += Environment.NewLine;
                 output += $"{this.formatHigh(highestWeatherData)}" + Environment.NewLine;
                 output += $"{this.formatLow(lowestWeatherData)}" + Environment.NewLine;
-                output += $"Total Precipitation: {this.weatherCollection.GetTotalPrecipitationForMonth(month, year):F}" + Environment.NewLine;
+                output +=
+                    $"Total Precipitation: {this.weatherCollection.GetTotalPrecipitationForMonth(month, year):F}" +
+                    Environment.NewLine;
                 output += $"Average High: {this.weatherCollection.GetAverageHighTemperatureForMonth(month, year):F}" +
                           Environment.NewLine;
                 output += $"Average Low: {this.weatherCollection.GetAverageLowTemperatureForMonth(month, year):F}";

@@ -456,7 +456,8 @@ namespace WeatherDataAnalysis.Model
             return monthList;
         }
 
-        private static ICollection<WeatherData> getEachWeatherWithMinTemperatureIn(ICollection<WeatherData> weatherDataList)
+        private static ICollection<WeatherData> getEachWeatherWithMinTemperatureIn(
+            ICollection<WeatherData> weatherDataList)
         {
             var minTemp = getMinTemperatureIn(weatherDataList);
             var weathersWithMinTemp = weatherDataList.Where(weather => weather.Low == minTemp).ToList();

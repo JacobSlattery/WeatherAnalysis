@@ -7,13 +7,20 @@ namespace WeatherDataAnalysis.View
 {
     public sealed partial class EditDayDialog
     {
+        #region Data members
 
         public const ContentDialogResult Done = ContentDialogResult.Primary;
+
+        #endregion
+
+        #region Constructors
+
         public EditDayDialog(EditDayViewModel viewModel)
         {
             this.InitializeComponent();
-            this.DataContext = viewModel;
+            DataContext = viewModel;
         }
 
+        #endregion
     }
 }

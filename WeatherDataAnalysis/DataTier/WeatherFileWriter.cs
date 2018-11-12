@@ -8,7 +8,7 @@ using WeatherDataAnalysis.Model;
 namespace WeatherDataAnalysis.DataTier
 {
     /// <summary>
-    ///     Takes the data contained in a <see cref="IEnumerable{WeatherData}" /> and writes it to a file.
+    ///     Takes the data contained in a <see cref="IEnumerable{T}" /> and writes it to a file.
     /// </summary>
     internal class WeatherFileWriter
     {

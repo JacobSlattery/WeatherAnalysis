@@ -14,7 +14,7 @@ namespace WeatherDataAnalysis.DataTier
         #region Methods
 
         /// <summary>
-        /// XMLs to weather collection.
+        ///     XMLs to weather collection.
         /// </summary>
         /// <param name="file">The file.</param>
         /// <returns>The WeatherDataCollection from the xml file</returns>

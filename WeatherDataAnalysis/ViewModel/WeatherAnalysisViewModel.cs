@@ -16,6 +16,10 @@ using WeatherDataAnalysis.ViewModel.Dialog;
 
 namespace WeatherDataAnalysis.ViewModel
 {
+    /// <summary>
+    ///     The view model of the Main Page
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public class WeatherAnalysisViewModel : INotifyPropertyChanged
     {
         #region Data members
@@ -36,23 +40,43 @@ namespace WeatherDataAnalysis.ViewModel
         private string report;
         private ObservableCollection<WeatherData> listViewDays;
 
-
         #endregion
 
         #region Properties
 
+        /// <summary>
+        ///     Gets or sets the save to file command.
+        /// </summary>
         public RelayCommand SaveToFileCommand { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the load file command.
+        /// </summary>
         public RelayCommand LoadFileCommand { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the add weather data command.
+        /// </summary>
         public RelayCommand AddWeatherDataCommand { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the clear all data command.
+        /// </summary>
         public RelayCommand ClearAllDataCommand { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the delete day command.
+        /// </summary>
         public RelayCommand DeleteDayCommand { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the edit day command.
+        /// </summary>
         public RelayCommand EditDayCommand { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the size of the selected bucket.
+        /// </summary>
         public int SelectedBucketSize
         {
             get => this.selectedBucketSize;
@@ -64,6 +88,9 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the ListView days.
+        /// </summary>
         public ObservableCollection<WeatherData> ListViewDays
         {
             get => this.listViewDays;
@@ -74,17 +101,20 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the selected year filter.
+        /// </summary>
         public string SelectedYearFilter
         {
             get => this.selectedYearFilter;
             set
             {
-                
                 if (value == null || this.selectedYearFilter == null)
                 {
                     this.ListViewDays = this.Days;
                     this.selectedYearFilter = DefaultYearSelection;
-                }else if (value.Equals(DefaultYearSelection))
+                }
+                else if (value.Equals(DefaultYearSelection))
                 {
                     this.ListViewDays = this.Days;
                     this.selectedYearFilter = value;
@@ -100,6 +130,9 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the days which is the collection of all weather data held.
+        /// </summary>
         public ObservableCollection<WeatherData> Days
         {
             get => this.days;
@@ -112,10 +145,14 @@ namespace WeatherDataAnalysis.ViewModel
                 {
                     this.ListViewDays = this.days;
                 }
+
                 this.updateReport();
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the years.
+        /// </summary>
         public ObservableCollection<string> Years
         {
             get => this.years;
@@ -128,17 +165,22 @@ namespace WeatherDataAnalysis.ViewModel
                 }
                 else
                 {
-                    this.years = new ObservableCollection<string> { DefaultYearSelection }.Union(value.OrderBy(x => x)).ToObservableCollection();
+                    this.years = new ObservableCollection<string> {DefaultYearSelection}
+                                 .Union(value.OrderBy(x => x)).ToObservableCollection();
                 }
 
                 if (this.selectedYearFilter == null)
                 {
                     this.SelectedYearFilter = DefaultYearSelection;
                 }
+
                 this.OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the bucket sizes.
+        /// </summary>
         public ObservableCollection<int> BucketSizes
         {
             get => this.bucketSizes;
@@ -149,6 +191,9 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the selected weather data.
+        /// </summary>
         public WeatherData SelectedWeatherData
         {
             get => this.selectedWeatherData;
@@ -161,6 +206,9 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the maximum threshold.
+        /// </summary>
         public int? MaxThreshold
         {
             get => this.maxThreshold;
@@ -183,6 +231,9 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the minimum threshold.
+        /// </summary>
         public int? MinThreshold
         {
             get => this.minThreshold;
@@ -205,6 +256,9 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the report.
+        /// </summary>
         public string Report
         {
             get => this.report;
@@ -224,6 +278,9 @@ namespace WeatherDataAnalysis.ViewModel
 
         #region Constructors
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="WeatherAnalysisViewModel" /> class.
+        /// </summary>
         public WeatherAnalysisViewModel()
         {
             this.loadCommands();
@@ -253,7 +310,6 @@ namespace WeatherDataAnalysis.ViewModel
             this.keepAll = false;
             this.selectedYearFilter = DefaultYearSelection;
             this.updateReport();
-
         }
 
         private void loadCommands()
@@ -304,7 +360,8 @@ namespace WeatherDataAnalysis.ViewModel
                 {
                     nextIndex = lastIndex;
                     this.SelectedWeatherData = this.days[nextIndex];
-                } else if (this.days.Count != 0)
+                }
+                else if (this.days.Count != 0)
                 {
                     nextIndex = lastIndex - 1;
                     this.SelectedWeatherData = this.days[nextIndex];
@@ -317,11 +374,12 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void editDay(object obj)
         {
-            var viewModel = new EditDayViewModel(this.selectedWeatherData.High, this.selectedWeatherData.Low, this.selectedWeatherData.Precipitation);
+            var viewModel = new EditDayViewModel(this.selectedWeatherData.High, this.selectedWeatherData.Low,
+                this.selectedWeatherData.Precipitation);
             var result = await MainPage.LaunchDayEditDialog(viewModel);
             if (result == EditDayDialog.Done)
             {
-                var dayIndex= this.days.IndexOf(this.selectedWeatherData);
+                var dayIndex = this.days.IndexOf(this.selectedWeatherData);
                 var viewIndex = this.ListViewDays.IndexOf(this.selectedWeatherData);
                 this.selectedWeatherData.Precipitation = viewModel.Precipitation;
                 this.selectedWeatherData.High = viewModel.High;
@@ -332,7 +390,6 @@ namespace WeatherDataAnalysis.ViewModel
                 this.updateReport();
             }
         }
-
 
         private async void loadFile(object obj)
         {
@@ -361,7 +418,7 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async void addWeatherData(object obj)
         {
-            var viewModel = await MainPage.ExecuteDialogForAddData();
+            var viewModel = await MainPage.LaunchDialogForAddData();
             if (viewModelHasNoNullValues(viewModel))
             {
                 // ReSharper disable twice PossibleInvalidOperationException
@@ -405,7 +462,7 @@ namespace WeatherDataAnalysis.ViewModel
             {
                 weathers = new ObservableCollection<WeatherData>();
             }
-            
+
             if (this.days.Count == 0)
             {
                 this.Days = weathers.ToObservableCollection();
@@ -421,7 +478,7 @@ namespace WeatherDataAnalysis.ViewModel
 
         private async Task handleNewWeatherDataCollection(ICollection<WeatherData> newWeatherDataCollection)
         {
-            if (await MainPage.ExecuteDialogForMergeOrReplace())
+            if (await MainPage.LaunchDialogForMergeOrReplace() == MergeOrReplaceDialog.Merge)
             {
                 foreach (var newWeatherData in newWeatherDataCollection)
                 {
@@ -478,7 +535,7 @@ namespace WeatherDataAnalysis.ViewModel
             else if (!this.keepAll)
             {
                 var viewModel = new MultipleDataFromSameDayViewModel();
-                var result = await MainPage.ExecuteMultipleDataOnSameDayDialog(oldWeatherData.ToString(),
+                var result = await MainPage.LaunchMultipleDataOnSameDayDialog(oldWeatherData.ToString(),
                     newWeatherData.ToString(), viewModel);
 
                 if (result == MultipleDataFromSameDayDialog.Replace)

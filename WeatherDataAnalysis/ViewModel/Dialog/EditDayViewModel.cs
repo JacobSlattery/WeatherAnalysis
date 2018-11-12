@@ -5,11 +5,15 @@ namespace WeatherDataAnalysis.ViewModel.Dialog
 {
     public class EditDayViewModel : INotifyPropertyChanged
     {
+        #region Data members
 
-        
         private int high;
         private int low;
         private double precipitation;
+
+        #endregion
+
+        #region Properties
 
         public int High
         {
@@ -41,6 +45,9 @@ namespace WeatherDataAnalysis.ViewModel.Dialog
             }
         }
 
+        #endregion
+
+        #region Constructors
 
         public EditDayViewModel(int high, int low, double precipitation)
         {
@@ -49,6 +56,10 @@ namespace WeatherDataAnalysis.ViewModel.Dialog
             this.precipitation = precipitation;
         }
 
+        #endregion
+
+        #region Methods
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -56,7 +67,6 @@ namespace WeatherDataAnalysis.ViewModel.Dialog
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-
+        #endregion
     }
 }

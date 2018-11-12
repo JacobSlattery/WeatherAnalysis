@@ -3,10 +3,12 @@ using System.Collections.ObjectModel;
 
 namespace WeatherDataAnalysis.Extensions
 {
-   public static class ListExtensions
+    public static class ListExtensions
     {
+        #region Methods
+
         /// <summary>
-        /// To the observable collection.
+        ///     To the observable collection.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
@@ -15,5 +17,7 @@ namespace WeatherDataAnalysis.Extensions
         {
             return new ObservableCollection<T>(collection);
         }
+
+        #endregion
     }
 }

@@ -18,7 +18,8 @@
 
         <TextBlock HorizontalAlignment="Left" Text="Weather Analysis" Margin="407,64,0,0" TextWrapping="Wrap"
                    VerticalAlignment="Top"
-                   Height="25" Width="auto" TextAlignment="Center" HorizontalTextAlignment="Center" FontWeight="Bold" FontSize="14" />
+                   Height="25" Width="auto" TextAlignment="Center" HorizontalTextAlignment="Center" FontWeight="Bold"
+                   FontSize="14" />
 
         <TextBlock HorizontalAlignment="Left" Margin="196,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                    Height="25" Width="auto" Text="MaxThreshold" TextAlignment="Center" />
@@ -46,7 +47,7 @@
 
 
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="16,150,0,0" VerticalAlignment="Top"
-                 TextWrapping="Wrap" Text="{Binding Report, Mode=OneWay}" Height="313" Width="423" IsReadOnly="True" 
+                 TextWrapping="Wrap" Text="{Binding Report, Mode=OneWay}" Height="313" Width="423" IsReadOnly="True"
                  AutomationProperties.Name="summaryTextBlock" />
 
 
@@ -57,26 +58,37 @@
                 Command="{Binding ClearAllDataCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Content="Clear Data" HorizontalAlignment="Left" Margin="350,468,0,0"
                 VerticalAlignment="Top" />
-        <TextBlock Text="Date" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" HorizontalTextAlignment="Center" Width="71" Margin="482,125,0,0"/>
-        <TextBlock Text="High" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" HorizontalTextAlignment="Center" Width="80" Margin="580,125,0,0"/>
-        <TextBlock Text="Low" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" HorizontalTextAlignment="Center" Width="80" Margin="660,125,0,0"/>
-        <TextBlock Text="Precipitation" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"  HorizontalTextAlignment="Center" Width="90" Margin="739,125,0,0" />
+        <TextBlock Text="Date" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"
+                   HorizontalTextAlignment="Center" Width="71" Margin="482,125,0,0" />
+        <TextBlock Text="High" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"
+                   HorizontalTextAlignment="Center" Width="80" Margin="580,125,0,0" />
+        <TextBlock Text="Low" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"
+                   HorizontalTextAlignment="Center" Width="80" Margin="660,125,0,0" />
+        <TextBlock Text="Precipitation" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"
+                   HorizontalTextAlignment="Center" Width="90" Margin="739,125,0,0" />
 
-        <ListView HorizontalAlignment="Left" ItemsSource="{Binding ListViewDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedWeatherData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="313" VerticalAlignment="Top" Width="423" Margin="476,150,0,0" BorderThickness="2" BorderBrush="#FF999999" >
+        <ListView HorizontalAlignment="Left"
+                  ItemsSource="{Binding ListViewDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedWeatherData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Height="313" VerticalAlignment="Top" Width="423" Margin="476,150,0,0" BorderThickness="2"
+                  BorderBrush="#FF999999">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90"/>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="90"/>
-                            <ColumnDefinition Width="83"/>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="83" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Date, Mode=TwoWay, Converter={StaticResource DateTimeConverter}}" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding Date, Mode=TwoWay, Converter={StaticResource DateTimeConverter}}"
+                                   HorizontalAlignment="Left" />
                         <TextBlock Grid.Column="1" Text="{Binding High, Mode=TwoWay}" HorizontalAlignment="Center" />
-                        <TextBlock Grid.Column="2" Text="{Binding Low, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="{Binding Precipitation, Mode=TwoWay}" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="{Binding Low, Mode=TwoWay}" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Text="{Binding Precipitation, Mode=TwoWay}"
+                                   HorizontalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -90,11 +102,17 @@
             </ListView.ItemContainerStyle>
 
         </ListView>
-        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Years, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedYearFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="827,113,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="Edit Day" Command="{Binding EditDayCommand}" HorizontalAlignment="Left" Margin="476,468,0,0" VerticalAlignment="Top"/>
-        <Button Content="Delete Day" Command="{Binding DeleteDayCommand}" HorizontalAlignment="Left" Margin="806,468,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left"
+                  ItemsSource="{Binding Years, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedYearFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="827,113,0,0" VerticalAlignment="Top" Width="72" />
+        <Button Content="Edit Day" Command="{Binding EditDayCommand}" HorizontalAlignment="Left" Margin="476,468,0,0"
+                VerticalAlignment="Top" />
+        <Button Content="Delete Day" Command="{Binding DeleteDayCommand}" HorizontalAlignment="Left"
+                Margin="806,468,0,0" VerticalAlignment="Top" />
 
-        <TextBlock HorizontalAlignment="Left" Margin="849,88,0,0" Text="Year" TextWrapping="Wrap" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="849,88,0,0" Text="Year" TextWrapping="Wrap"
+                   VerticalAlignment="Top" />
 
     </Grid>
 

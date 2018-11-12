@@ -56,6 +56,12 @@ namespace WeatherDataAnalysis
 
         #region Methods
 
+        /// <summary>
+        ///     Picks the file to open with a file open picker.
+        /// </summary>
+        /// <returns>
+        ///     A file
+        /// </returns>
         public static async Task<StorageFile> PickFileWithOpenPicker()
         {
             var openPicker = new FileOpenPicker {
@@ -79,19 +85,29 @@ namespace WeatherDataAnalysis
             return file;
         }
 
+        /// <summary>
+        ///     Picks the file to save to with file save picker.
+        /// </summary>
+        /// <returns>
+        ///     A file
+        /// </returns>
         public static async Task<StorageFile> PickFileWithSavePicker()
         {
             var fileSaver = new FileSavePicker {
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
-            fileSaver.FileTypeChoices.Add(".", new List<string> { ".csv", ".xml"});
+            fileSaver.FileTypeChoices.Add(".", new List<string> {".csv", ".xml"});
             fileSaver.FileTypeChoices.Add("csv", new List<string> {".csv"});
             fileSaver.FileTypeChoices.Add("xml", new List<string> {".xml"});
 
             return await fileSaver.PickSaveFileAsync();
         }
 
-        public static async Task<AddDataViewModel> ExecuteDialogForAddData()
+        /// <summary>
+        ///     Launches the dialog for add data.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<AddDataViewModel> LaunchDialogForAddData()
         {
             AddDataViewModel viewModel = null;
 
@@ -105,14 +121,26 @@ namespace WeatherDataAnalysis
             return viewModel;
         }
 
-        public static async Task<bool> ExecuteDialogForMergeOrReplace()
+        /// <summary>
+        ///     Launches a dialog for merge or replace.
+        /// </summary>
+        /// <returns>
+        ///     The result
+        /// </returns>
+        public static async Task<ContentDialogResult> LaunchDialogForMergeOrReplace()
         {
             var dialog = new MergeOrReplaceDialog();
-            var result = await dialog.ShowAsync();
-            return result == MergeOrReplaceDialog.Merge;
+            return await dialog.ShowAsync();
         }
 
-        public static async Task<ContentDialogResult> ExecuteMultipleDataOnSameDayDialog(string newData, string oldData,
+        /// <summary>
+        ///     Launches a multiple data on same day dialog.
+        /// </summary>
+        /// <param name="newData">The new data.</param>
+        /// <param name="oldData">The old data.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        public static async Task<ContentDialogResult> LaunchMultipleDataOnSameDayDialog(string newData, string oldData,
             MultipleDataFromSameDayViewModel viewModel)
         {
             var message = "Old Data: " + newData + Environment.NewLine +
@@ -124,6 +152,13 @@ namespace WeatherDataAnalysis
             return await dialog.ShowAsync();
         }
 
+        /// <summary>
+        ///     Displays the unread lines.
+        /// </summary>
+        /// <param name="lines">The lines.</param>
+        /// <returns>
+        ///     A Task
+        /// </returns>
         public static async Task DisplayUnreadLines(string lines)
         {
             var dialog = new ContentDialog {
@@ -138,6 +173,13 @@ namespace WeatherDataAnalysis
             }
         }
 
+        /// <summary>
+        ///     Launches the day edit dialog.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns>
+        ///     The result
+        /// </returns>
         public static async Task<ContentDialogResult> LaunchDayEditDialog(EditDayViewModel viewModel)
         {
             var dialog = new EditDayDialog(viewModel);
@@ -146,6 +188,5 @@ namespace WeatherDataAnalysis
         }
 
         #endregion
-
     }
 }

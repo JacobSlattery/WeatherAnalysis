@@ -7,7 +7,7 @@
     <Application.Resources>
         <converter:PrecipitationConverter x:Key="PrecipitationConverter" />
         <converter:TemperatureConverter x:Key="TemperatureConverter" />
-        <converter:DateTimeConverter x:Key="DateTimeConverter"/>
+        <converter:DateTimeConverter x:Key="DateTimeConverter" />
     </Application.Resources>
 
 </Application>
