@@ -23,8 +23,8 @@ namespace WeatherDataAnalysis.ViewModel
         private const int DefaultMaxThreshold = 90;
         private const int DefaultMinThreshold = 32;
         private ObservableCollection<WeatherData> days;
-        private int selectedYearFilter;
-        private ObservableCollection<int> years;
+        private string selectedYearFilter;
+        private ObservableCollection<string> years;
         private WeatherData selectedWeatherData;
         private ObservableCollection<int> bucketSizes;
         private int selectedBucketSize;
@@ -47,7 +47,37 @@ namespace WeatherDataAnalysis.ViewModel
 
         public RelayCommand ClearAllDataCommand { get; set; }
 
-        public RelayCommand DeleteDayCommand { get; set; }
+        public int SelectedBucketSize
+        {
+            get => this.selectedBucketSize;
+            set
+            {
+                this.selectedBucketSize = value;
+                this.OnPropertyChanged(nameof(this.SelectedBucketSize));
+                this.updateReport();
+            }
+        }
+
+        public string SelectedYearFilter
+        {
+            get => this.selectedYearFilter;
+            set
+            {
+                this.selectedYearFilter = value;
+                if (this.selectedYearFilter.Equals("All Years"))
+                {
+                    this.Days = this.weatherDataCollection.ToObservableCollection();
+                }
+                else
+                {
+                    var filter = int.Parse(this.selectedYearFilter);
+                    this.Days = this.weatherDataCollection.Where(x => x.Date.Year.Equals(filter))
+                                    .ToObservableCollection();
+                }
+
+                this.OnPropertyChanged(nameof(this.Days));
+            }
+        }
 
         public ObservableCollection<WeatherData> Days
         {
@@ -65,12 +95,14 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
-        public ObservableCollection<int> Years
+        public ObservableCollection<string> Years
         {
             get => this.years;
             set
             {
-                this.years = value.OrderBy(x => x).ToObservableCollection();
+                this.years = new ObservableCollection<string> {"All Years"}
+                             .Union(value.OrderBy(x => x)).ToObservableCollection();
+                this.years.Union(value.OrderBy(x => x));
                 this.OnPropertyChanged();
             }
         }
@@ -137,39 +169,6 @@ namespace WeatherDataAnalysis.ViewModel
                     this.OnPropertyChanged(nameof(this.MinThreshold));
                     this.updateReport();
                 }
-            }
-        }
-
-        public int SelectedBucketSize
-        {
-            get => this.selectedBucketSize;
-            set
-            {
-                this.selectedBucketSize = value;
-                this.OnPropertyChanged(nameof(this.SelectedBucketSize));
-                this.updateReport();
-            }
-        }
-
-        public ObservableCollection<WeatherData> ListViewDays
-        {
-            get => this.listViewDays;
-            set
-            {
-                this.listViewDays = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        public int SelectedYearFilter
-        {
-            get => this.selectedYearFilter;
-            set
-            {
-                this.selectedYearFilter = value;
-                this.ListViewDays = this.days.Where(x => x.Date.Year.Equals(this.selectedYearFilter))
-                                .ToObservableCollection();
-                this.OnPropertyChanged(nameof(this.ListViewDays));
             }
         }
 
@@ -342,7 +341,8 @@ namespace WeatherDataAnalysis.ViewModel
             if (file.FileType.Equals(".csv"))
             {
                 weathers = await weatherFileReader.ReadFileToWeatherCollection(file);
-            }else if (file.FileType.Equals(".xml"))
+            }
+            else if (file.FileType.Equals(".xml"))
             {
                 weathers = await WeatherCollectionXmlDeserializer.XmlToWeatherCollection(file);
             }
@@ -378,6 +378,7 @@ namespace WeatherDataAnalysis.ViewModel
                 this.Days = newWeatherDataCollection.ToObservableCollection();
                 this.Years = this.findAllYears().ToObservableCollection();
             }
+
             this.keepAll = false;
             this.replaceAll = false;
         }
