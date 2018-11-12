@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Serialization;
 using Windows.Storage;
 using WeatherDataAnalysis.Model;
@@ -12,6 +11,12 @@ namespace WeatherDataAnalysis.DataTier
     {
         #region Methods
 
+        /// <summary>
+        /// XMLs to weather collection.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <returns>The WeatherDataCollection from the xml file</returns>
+        /// <exception cref="ArgumentNullException">file - Cannot accept null for a file</exception>
         public static async Task<WeatherDataCollection> XmlToWeatherCollection(StorageFile file)
         {
             if (file == null)

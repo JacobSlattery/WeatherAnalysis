@@ -10,6 +10,16 @@ namespace WeatherDataAnalysis.DataTier
     {
         #region Methods
 
+        /// <summary>
+        /// Writes to XML.
+        /// </summary>
+        /// <param name="weatherData">The weather data.</param>
+        /// <param name="file">The file.</param>
+        /// <exception cref="ArgumentNullException">
+        /// file - Cannot accept null for a file
+        /// or
+        /// weatherData - Weather data collection cannot be null
+        /// </exception>
         public static async void WriteToXml(WeatherDataCollection weatherData, StorageFile file)
         {
             if (file == null)
