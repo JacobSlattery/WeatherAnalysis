@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Serialization;
 using Windows.Storage;
@@ -20,7 +22,7 @@ namespace WeatherDataAnalysis.DataTier
         /// or
         /// weatherData - Weather data collection cannot be null
         /// </exception>
-        public static async void WriteToXml(WeatherDataCollection weatherData, StorageFile file)
+        public static async void WriteToXml(ICollection<WeatherData> weatherData, StorageFile file)
         {
             if (file == null)
             {
@@ -34,7 +36,7 @@ namespace WeatherDataAnalysis.DataTier
             }
 
             var knownTypes = new[] {typeof(WeatherData)};
-            var serializer = new XmlSerializer(typeof(WeatherDataCollection), knownTypes);
+            var serializer = new XmlSerializer(typeof(Collection<WeatherData>), knownTypes);
             var writer = new StringWriter();
             serializer.Serialize(writer, weatherData);
 

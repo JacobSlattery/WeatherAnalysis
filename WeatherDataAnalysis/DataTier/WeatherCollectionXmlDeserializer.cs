@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -17,17 +19,17 @@ namespace WeatherDataAnalysis.DataTier
         /// <param name="file">The file.</param>
         /// <returns>The WeatherDataCollection from the xml file</returns>
         /// <exception cref="ArgumentNullException">file - Cannot accept null for a file</exception>
-        public static async Task<WeatherDataCollection> XmlToWeatherCollection(StorageFile file)
+        public static async Task<ICollection<WeatherData>> XmlToWeatherCollection(StorageFile file)
         {
             if (file == null)
             {
                 throw new ArgumentNullException(nameof(file), "Cannot accept null for a file");
             }
 
-            var reader = new XmlSerializer(typeof(WeatherDataCollection));
+            var reader = new XmlSerializer(typeof(Collection<WeatherData>));
             var xml = await FileIO.ReadTextAsync(file);
             var fileReader = new StringReader(xml);
-            var weatherDataCollection = (WeatherDataCollection) reader.Deserialize(fileReader);
+            var weatherDataCollection = (Collection<WeatherData>) reader.Deserialize(fileReader);
             fileReader.Close();
 
             return weatherDataCollection;

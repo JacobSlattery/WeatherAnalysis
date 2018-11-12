@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -7,14 +8,14 @@ using WeatherDataAnalysis.Model;
 namespace WeatherDataAnalysis.DataTier
 {
     /// <summary>
-    ///     Takes the data contained in a <see cref="WeatherDataCollection" /> and writes it to a file.
+    ///     Takes the data contained in a <see cref="IEnumerable{WeatherData}" /> and writes it to a file.
     /// </summary>
     internal class WeatherFileWriter
     {
         #region Methods
 
         /// <summary>
-        ///     Parses the <see cref="WeatherDataCollection" /> contents to the file.
+        ///     Parses the <see cref="IEnumerable{WeatherData}" /> contents to the file.
         /// </summary>
         /// <param name="weatherDataCollection">The weather data collection.</param>
         /// <param name="file">The file.</param>
@@ -24,7 +25,7 @@ namespace WeatherDataAnalysis.DataTier
         ///     or
         ///     weatherDataCollection - Weather data collection cannot be null
         /// </exception>
-        public async Task ParseWeatherDataCollectionToFile(WeatherDataCollection weatherDataCollection,
+        public async Task ParseWeatherDataCollectionToFile(ICollection<WeatherData> weatherDataCollection,
             StorageFile file)
         {
             if (file == null)
@@ -48,7 +49,7 @@ namespace WeatherDataAnalysis.DataTier
             }
         }
 
-        private async Task writeToCsvFile(WeatherDataCollection weatherDataCollection, StorageFile file)
+        private async Task writeToCsvFile(IEnumerable<WeatherData> weatherDataCollection, StorageFile file)
         {
             var fileContents = string.Empty;
             foreach (var weatherData in weatherDataCollection.OrderBy(weather => weather.Date))
