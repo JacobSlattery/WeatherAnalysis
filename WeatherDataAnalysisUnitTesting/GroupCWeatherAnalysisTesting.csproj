@@ -100,6 +100,8 @@
       <DependentUpon>UnitTestApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="WeatherDataCollection\ContainsWeatherDataWith.cs" />
+    <Compile Include="WeatherDataCollection\CountDaysWithTemperatureOverDegreeInYearInclusive.cs" />
+    <Compile Include="WeatherDataCollection\CountDaysWithTemperatureUnderDegreeInYearInclusive.cs" />
     <Compile Include="WeatherDataCollection\GetEachDistinctYear.cs" />
     <Compile Include="WeatherDataCollection\GetEveryWeatherDataWithHighestTemperatureInYear.cs" />
     <Compile Include="WeatherDataCollection\GetEveryWeatherDataWithLowestHighTemperatureInYear.cs" />
