@@ -20,6 +20,7 @@ namespace WeatherDataAnalysis.ViewModel
     {
         #region Data members
 
+        private const string DefaultYearSelection = "All Years";
         private const int DefaultMaxThreshold = 90;
         private const int DefaultMinThreshold = 32;
         private ObservableCollection<WeatherData> days;
@@ -35,6 +36,7 @@ namespace WeatherDataAnalysis.ViewModel
         private string report;
         private ObservableCollection<WeatherData> listViewDays;
 
+
         #endregion
 
         #region Properties
@@ -47,6 +49,8 @@ namespace WeatherDataAnalysis.ViewModel
 
         public RelayCommand ClearAllDataCommand { get; set; }
 
+        public RelayCommand DeleteDayCommand { get; set; }
+
         public int SelectedBucketSize
         {
             get => this.selectedBucketSize;
@@ -58,21 +62,31 @@ namespace WeatherDataAnalysis.ViewModel
             }
         }
 
+        public ObservableCollection<WeatherData> ListViewDays
+        {
+            get => this.listViewDays;
+            set
+            {
+                this.listViewDays = value;
+                this.OnPropertyChanged(nameof(this.ListViewDays));
+            }
+        }
+
         public string SelectedYearFilter
         {
             get => this.selectedYearFilter;
             set
             {
-                this.selectedYearFilter = value;
-                if (this.selectedYearFilter.Equals("All Years"))
+                
+                if (value == null || this.selectedYearFilter.Equals(DefaultYearSelection))
                 {
-                    this.Days = this.weatherDataCollection.ToObservableCollection();
+                    this.ListViewDays = this.Days;
+                    this.selectedYearFilter = DefaultYearSelection;
                 }
                 else
                 {
                     var filter = int.Parse(this.selectedYearFilter);
-                    this.Days = this.weatherDataCollection.Where(x => x.Date.Year.Equals(filter))
-                                    .ToObservableCollection();
+                    this.ListViewDays = this.Days.Where(x => x.Date.Year.Equals(filter)).ToObservableCollection();
                 }
 
                 this.OnPropertyChanged(nameof(this.Days));
@@ -218,6 +232,7 @@ namespace WeatherDataAnalysis.ViewModel
             this.minThreshold = DefaultMinThreshold;
             this.replaceAll = false;
             this.keepAll = false;
+            this.selectedYearFilter = DefaultYearSelection;
             this.updateReport();
 
         }
@@ -390,7 +405,8 @@ namespace WeatherDataAnalysis.ViewModel
                 !currentWeatherDataCollection.ContainsWeatherDataWith(newWeatherData.Date))
             {
                 this.Days.Add(newWeatherData);
-                if (newWeatherData.Date.Year.Equals(this.SelectedYearFilter))
+                var passed = int.TryParse(this.selectedYearFilter, out var result);
+                if (passed && newWeatherData.Date.Year.Equals(result))
                 {
                     this.ListViewDays.Add(newWeatherData);
                 }
@@ -468,9 +484,9 @@ namespace WeatherDataAnalysis.ViewModel
             return viewModel?.High != null && viewModel.Low != null && viewModel.Precipitation != null;
         }
 
-        private IEnumerable<int> findAllYears()
+        private IEnumerable<string> findAllYears()
         {
-            return this.Days.Select(x => x.Date.Year).Distinct();
+            return this.Days.Select(x => x.Date.Year.ToString()).Distinct();
         }
 
         #endregion
