@@ -65,6 +65,10 @@ namespace WeatherDataAnalysis.Model
             this.Precipitation = precipitation;
         }
 
+        private WeatherData()
+        {
+
+        }
         #endregion
 
         #region Methods

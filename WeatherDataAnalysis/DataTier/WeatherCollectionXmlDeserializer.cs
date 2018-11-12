@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 using Windows.Storage;
 using WeatherDataAnalysis.Model;
@@ -10,7 +12,7 @@ namespace WeatherDataAnalysis.DataTier
     {
         #region Methods
 
-        public static WeatherDataCollection XmlToWeatherCollection(StorageFile file)
+        public static async Task<WeatherDataCollection> XmlToWeatherCollection(StorageFile file)
         {
             if (file == null)
             {
@@ -18,7 +20,8 @@ namespace WeatherDataAnalysis.DataTier
             }
 
             var reader = new XmlSerializer(typeof(WeatherDataCollection));
-            var fileReader = new StreamReader(file.Path);
+            var xml = await FileIO.ReadTextAsync(file);
+            var fileReader = new StringReader(xml);
             var weatherDataCollection = (WeatherDataCollection) reader.Deserialize(fileReader);
             fileReader.Close();
 

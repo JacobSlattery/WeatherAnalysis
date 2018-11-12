@@ -31,6 +31,11 @@ namespace WeatherDataAnalysis.DataTier
 
         #endregion
 
+        public WeatherFileReader()
+        {
+            this.UnreadableLines = new List<string>();
+        }
+
         #region Methods
 
         /// <summary>
