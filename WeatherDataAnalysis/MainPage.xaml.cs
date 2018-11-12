@@ -138,6 +138,13 @@ namespace WeatherDataAnalysis
             }
         }
 
+        public static async Task<ContentDialogResult> LaunchDayEditDialog(EditDayViewModel viewModel)
+        {
+            var dialog = new EditDayDialog(viewModel);
+            var result = await dialog.ShowAsync();
+            return result;
+        }
+
         #endregion
 
     }

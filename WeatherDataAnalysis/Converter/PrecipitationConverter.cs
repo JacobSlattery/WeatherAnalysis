@@ -28,12 +28,12 @@ namespace WeatherDataAnalysis.Converter
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             var stringValue = (string) value;
-            double? output;
+            double output;
             var wasParsed = double.TryParse(stringValue, out var result);
 
             if (stringValue.StartsWith("-") || stringValue == string.Empty || !wasParsed)
             {
-                output = null;
+                output = 0;
             }
             else
             {

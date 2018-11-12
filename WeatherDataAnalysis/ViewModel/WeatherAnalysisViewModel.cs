@@ -20,7 +20,7 @@ namespace WeatherDataAnalysis.ViewModel
     {
         #region Data members
 
-        private const string DefaultYearSelection = "All Years";
+        public const string DefaultYearSelection = "ALL";
         private const int DefaultMaxThreshold = 90;
         private const int DefaultMinThreshold = 32;
         private ObservableCollection<WeatherData> days;
@@ -51,6 +51,8 @@ namespace WeatherDataAnalysis.ViewModel
 
         public RelayCommand DeleteDayCommand { get; set; }
 
+        public RelayCommand EditDayCommand { get; set; }
+
         public int SelectedBucketSize
         {
             get => this.selectedBucketSize;
@@ -78,13 +80,18 @@ namespace WeatherDataAnalysis.ViewModel
             set
             {
                 
-                if (value == null || this.selectedYearFilter.Equals(DefaultYearSelection))
+                if (value == null || this.selectedYearFilter == null)
                 {
                     this.ListViewDays = this.Days;
                     this.selectedYearFilter = DefaultYearSelection;
+                }else if (value.Equals(DefaultYearSelection))
+                {
+                    this.ListViewDays = this.Days;
+                    this.selectedYearFilter = value;
                 }
                 else
                 {
+                    this.selectedYearFilter = value;
                     var filter = int.Parse(this.selectedYearFilter);
                     this.ListViewDays = this.Days.Where(x => x.Date.Year.Equals(filter)).ToObservableCollection();
                 }
@@ -114,9 +121,20 @@ namespace WeatherDataAnalysis.ViewModel
             get => this.years;
             set
             {
-                this.years = new ObservableCollection<string> {"All Years"}
-                             .Union(value.OrderBy(x => x)).ToObservableCollection();
-                this.years.Union(value.OrderBy(x => x));
+                if (value == null || value.Count == 0 || this.selectedYearFilter == null)
+                {
+                    this.years = new ObservableCollection<string> {DefaultYearSelection};
+                    this.selectedYearFilter = DefaultYearSelection;
+                }
+                else
+                {
+                    this.years = new ObservableCollection<string> { DefaultYearSelection }.Union(value.OrderBy(x => x)).ToObservableCollection();
+                }
+
+                if (this.selectedYearFilter == null)
+                {
+                    this.SelectedYearFilter = DefaultYearSelection;
+                }
                 this.OnPropertyChanged();
             }
         }
@@ -139,6 +157,7 @@ namespace WeatherDataAnalysis.ViewModel
                 this.selectedWeatherData = value;
                 this.OnPropertyChanged(nameof(this.SelectedWeatherData));
                 this.DeleteDayCommand.OnCanExecuteChanged();
+                this.EditDayCommand.OnCanExecuteChanged();
             }
         }
 
@@ -242,8 +261,9 @@ namespace WeatherDataAnalysis.ViewModel
             this.LoadFileCommand = new RelayCommand(this.loadFile, this.canLoadFile);
             this.SaveToFileCommand = new RelayCommand(this.saveToFile, this.canSaveToFile);
             this.AddWeatherDataCommand = new RelayCommand(this.addWeatherData, this.canAddWeatherData);
-            this.ClearAllDataCommand = new RelayCommand(this.clearData, this.canClearData);
-            this.DeleteDayCommand = new RelayCommand(this.deleteDay, this.canDeleteDay);
+            this.ClearAllDataCommand = new RelayCommand(this.clearData, this.isThereAnyData);
+            this.DeleteDayCommand = new RelayCommand(this.deleteDay, this.isDaySelected);
+            this.EditDayCommand = new RelayCommand(this.editDay, this.isDaySelected);
         }
 
         private bool canLoadFile(object obj)
@@ -261,12 +281,12 @@ namespace WeatherDataAnalysis.ViewModel
             return true;
         }
 
-        private bool canClearData(object obj)
+        private bool isThereAnyData(object obj)
         {
-            return this.report.Length > 0;
+            return this.days.Count > 0;
         }
 
-        private bool canDeleteDay(object obj)
+        private bool isDaySelected(object obj)
         {
             return this.selectedWeatherData != null;
         }
@@ -276,10 +296,10 @@ namespace WeatherDataAnalysis.ViewModel
             if (this.days != null && this.days.Count > 0)
             {
                 var lastIndex = this.days.IndexOf(this.selectedWeatherData);
-                int nextIndex;
                 this.Days.Remove(this.selectedWeatherData);
                 this.ListViewDays.Remove(this.selectedWeatherData);
                 this.updateReport();
+                int nextIndex;
                 if (this.days.Count > lastIndex)
                 {
                     nextIndex = lastIndex;
@@ -290,7 +310,26 @@ namespace WeatherDataAnalysis.ViewModel
                     this.SelectedWeatherData = this.days[nextIndex];
                 }
 
+                this.OnPropertyChanged(nameof(this.Years));
                 this.OnPropertyChanged(nameof(this.Days));
+            }
+        }
+
+        private async void editDay(object obj)
+        {
+            var viewModel = new EditDayViewModel(this.selectedWeatherData.High, this.selectedWeatherData.Low, this.selectedWeatherData.Precipitation);
+            var result = await MainPage.LaunchDayEditDialog(viewModel);
+            if (result == EditDayDialog.Done)
+            {
+                var dayIndex= this.days.IndexOf(this.selectedWeatherData);
+                var viewIndex = this.ListViewDays.IndexOf(this.selectedWeatherData);
+                this.selectedWeatherData.Precipitation = viewModel.Precipitation;
+                this.selectedWeatherData.High = viewModel.High;
+                this.selectedWeatherData.Low = viewModel.Low;
+                this.days[dayIndex] = this.selectedWeatherData;
+                this.SelectedWeatherData = this.ListViewDays[viewIndex];
+                this.OnPropertyChanged(nameof(this.ListViewDays));
+                this.updateReport();
             }
         }
 
@@ -347,6 +386,7 @@ namespace WeatherDataAnalysis.ViewModel
         {
             this.Report = new ReportBuilder(new WeatherDataCollection(this.days)).BuildFullReport(this.maxThreshold,
                 this.minThreshold, this.selectedBucketSize);
+            this.OnPropertyChanged(nameof(this.SelectedYearFilter));
         }
 
         private async Task handleNewWeatherDataFile(StorageFile file)

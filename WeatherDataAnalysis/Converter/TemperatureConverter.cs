@@ -28,23 +28,16 @@ namespace WeatherDataAnalysis.Converter
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             var stringValue = (string) value;
-            int? output;
+            int output;
+            var wasParsed = int.TryParse(stringValue, out var result);
 
-            if (stringValue.Equals("-") || stringValue.Length == 0)
+            if (stringValue.Equals("-") || stringValue == string.Empty || !wasParsed)
             {
-                output = null;
+                output = 0;
             }
             else
             {
-                var wasParsed = int.TryParse(stringValue, out var result);
-                if (wasParsed)
-                {
-                    output = result;
-                }
-                else
-                {
-                    output = null;
-                }
+                output = result;
             }
 
             return output;

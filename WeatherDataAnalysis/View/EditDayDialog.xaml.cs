@@ -1,35 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Controls;
+using WeatherDataAnalysis.ViewModel.Dialog;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace WeatherDataAnalysis.View
 {
-    public sealed partial class EditDayDialog : ContentDialog
+    public sealed partial class EditDayDialog
     {
-        public EditDayDialog()
+
+        public const ContentDialogResult Done = ContentDialogResult.Primary;
+        public EditDayDialog(EditDayViewModel viewModel)
         {
             this.InitializeComponent();
+            this.DataContext = viewModel;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
     }
 }

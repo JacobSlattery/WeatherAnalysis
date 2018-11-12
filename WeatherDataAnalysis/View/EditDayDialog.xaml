@@ -5,24 +5,37 @@
     xmlns:local="using:WeatherDataAnalysis.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d"
     Title="Edit Day"
-    PrimaryButtonText="Apply"
-    SecondaryButtonText="Cancel"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    PrimaryButtonText="Done"
+    SecondaryButtonText="Cancel">
 
-    <Grid>
+    <Grid Padding="1, 1, 1, 1" Margin="1, 1, 1, 5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="131" />
         </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Left" Text="Date:" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="62" Margin="3,0,0,0"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,68,0,0" Text="Low:" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="30"/>
-        <TextBlock HorizontalAlignment="Left" Margin="3,105,0,0" Text="Precipitation:" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" Width="89"/>
-        <TextBlock HorizontalAlignment="Left" Text="Temp" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="128" Margin="135,0,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="135,25,0,0" Text="" VerticalAlignment="Top" Height="24" Width="130"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,31,0,0" Text="High:" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="37"/>
-        <TextBox HorizontalAlignment="Left" Margin="135,62,0,0" Text="" VerticalAlignment="Top" Height="24" Width="130"/>
-        <TextBox HorizontalAlignment="Left" Margin="135,99,0,0" Text="" VerticalAlignment="Top" Height="24" Width="130"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42" />
+        </Grid.RowDefinitions>
+
+
+        <TextBox
+            Text="{Binding High, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}"
+            InputScope="Number" PlaceholderText="High" Margin="2, 5, 2, 5"
+            extensions:TextBoxRegex.Regex="^(-?\d{0,4})$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
+        <TextBox
+            Text="{Binding Low, Mode=TwoWay, Converter={StaticResource TemperatureConverter}, UpdateSourceTrigger=PropertyChanged}"
+            Grid.Column="1" InputScope="Number" PlaceholderText="Low" Margin="2, 5, 2, 5"
+            extensions:TextBoxRegex.Regex="^(-?\d{0,4})$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
+        <TextBox
+            Text="{Binding Precipitation, Mode=TwoWay, Converter={StaticResource PrecipitationConverter}, UpdateSourceTrigger=PropertyChanged}"
+            Grid.Column="2" InputScope="Number" PlaceholderText="Precipitation"
+            HorizontalAlignment="Center" Margin="2, 5, 2, 5" VerticalAlignment="Top" Width="127"
+            extensions:TextBoxRegex.Regex="^(\d{0,4}(||(\.\d{0,2})))$" extensions:TextBoxRegex.ValidationMode="Dynamic" />
+
+
     </Grid>
 </ContentDialog>

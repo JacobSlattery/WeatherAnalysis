@@ -90,11 +90,11 @@
             </ListView.ItemContainerStyle>
 
         </ListView>
-        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Years, Mode=TwoWay}" SelectedItem="{Binding SelectedYearFilter, Mode=TwoWay}" Margin="835,113,0,0" VerticalAlignment="Top"/>
-        <Button Content="Edit Day" HorizontalAlignment="Left" Margin="476,468,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Years, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedYearFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="827,113,0,0" VerticalAlignment="Top" Width="72"/>
+        <Button Content="Edit Day" Command="{Binding EditDayCommand}" HorizontalAlignment="Left" Margin="476,468,0,0" VerticalAlignment="Top"/>
         <Button Content="Delete Day" Command="{Binding DeleteDayCommand}" HorizontalAlignment="Left" Margin="806,468,0,0" VerticalAlignment="Top"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="854,88,0,0" Text="Year" TextWrapping="Wrap" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="849,88,0,0" Text="Year" TextWrapping="Wrap" VerticalAlignment="Top" />
 
     </Grid>
 
