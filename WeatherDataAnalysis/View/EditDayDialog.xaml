@@ -1,0 +1,28 @@
+﻿<ContentDialog
+    x:Class="WeatherDataAnalysis.View.EditDayDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WeatherDataAnalysis.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Edit Day"
+    PrimaryButtonText="Apply"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock HorizontalAlignment="Left" Text="Date:" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="62" Margin="3,0,0,0"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,68,0,0" Text="Low:" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="30"/>
+        <TextBlock HorizontalAlignment="Left" Margin="3,105,0,0" Text="Precipitation:" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" Width="89"/>
+        <TextBlock HorizontalAlignment="Left" Text="Temp" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="128" Margin="135,0,0,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="135,25,0,0" Text="" VerticalAlignment="Top" Height="24" Width="130"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,31,0,0" Text="High:" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="37"/>
+        <TextBox HorizontalAlignment="Left" Margin="135,62,0,0" Text="" VerticalAlignment="Top" Height="24" Width="130"/>
+        <TextBox HorizontalAlignment="Left" Margin="135,99,0,0" Text="" VerticalAlignment="Top" Height="24" Width="130"/>
+    </Grid>
+</ContentDialog>
