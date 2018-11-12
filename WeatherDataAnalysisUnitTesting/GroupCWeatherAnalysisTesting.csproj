@@ -102,9 +102,12 @@
     <Compile Include="WeatherDataCollection\ContainsWeatherDataWith.cs" />
     <Compile Include="WeatherDataCollection\CountDaysWithTemperatureOverDegreeInYearInclusive.cs" />
     <Compile Include="WeatherDataCollection\CountDaysWithTemperatureUnderDegreeInYearInclusive.cs" />
+    <Compile Include="WeatherDataCollection\GetAverageHighTemperatureForYear.cs" />
+    <Compile Include="WeatherDataCollection\GetAverageLowTemperatureForYear.cs" />
     <Compile Include="WeatherDataCollection\GetEachDistinctYear.cs" />
     <Compile Include="WeatherDataCollection\GetEveryWeatherDataWithHighestTemperatureInYear.cs" />
     <Compile Include="WeatherDataCollection\GetEveryWeatherDataWithLowestHighTemperatureInYear.cs" />
+    <Compile Include="WeatherDataCollection\GetTotalPrecipitationForMonth.cs" />
     <Compile Include="WeatherData\CompareTo.cs" />
     <Compile Include="WeatherData\Constructor.cs" />
   </ItemGroup>
