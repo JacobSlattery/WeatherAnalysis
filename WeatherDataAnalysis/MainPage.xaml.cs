@@ -25,12 +25,12 @@ namespace WeatherDataAnalysis
         /// <summary>
         ///     The application height
         /// </summary>
-        public const int ApplicationHeight = 450;
+        public const int ApplicationHeight = 510;
 
         /// <summary>
         ///     The application width
         /// </summary>
-        public const int ApplicationWidth = 660;
+        public const int ApplicationWidth = 785;
 
         public WeatherAnalysisViewModel ViewModel;
 
@@ -139,5 +139,6 @@ namespace WeatherDataAnalysis
         }
 
         #endregion
+
     }
 }

@@ -16,76 +16,87 @@
             <AppBarButton Icon="OpenFile" Label="Load File" Command="{Binding LoadFileCommand}" />
         </CommandBar>
 
-        <TextBlock HorizontalAlignment="Left" Text="Weather Analysis" Margin="298,61,0,0" TextWrapping="Wrap"
+        <TextBlock HorizontalAlignment="Left" Text="Weather Analysis" Margin="283,53,0,0" TextWrapping="Wrap"
                    VerticalAlignment="Top"
-                   Height="25" Width="123" TextAlignment="Center" HorizontalTextAlignment="Center" />
+                   Height="25" Width="auto" TextAlignment="Center" HorizontalTextAlignment="Center" FontWeight="Bold" FontSize="14" />
 
-        <TextBlock HorizontalAlignment="Left" Margin="7,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
-                   Height="25" Width="100" Text="MaxThreshold:" TextAlignment="Center" />
+        <TextBlock HorizontalAlignment="Left" Margin="134,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                   Height="25" Width="auto" Text="MaxThreshold" TextAlignment="Center" />
         <TextBox x:Name="aboveThresholdTextBox"
                  Text="{Binding MaxThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TemperatureConverter}}"
-                 Margin="109,86,0,0"
+                 Margin="134,113,0,0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Top" InputScope="Number" Width="61" extensions:TextBoxRegex.Regex="^(-?\d{0,4})$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
 
-        <TextBlock HorizontalAlignment="Left" Margin="251,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
-                   Height="25" Width="100" Text="MinThreshold:" TextAlignment="Center" />
+        <TextBlock HorizontalAlignment="Left" Margin="16,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                   Height="25" Width="auto" Text="MinThreshold" TextAlignment="Center" />
         <TextBox x:Name="belowThresholdTextBox"
                  Text="{Binding MinThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TemperatureConverter}}"
-                 Margin="356,86,0,0"
+                 Margin="16,113,0,0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Top" InputScope="Number" Width="61" extensions:TextBoxRegex.Regex="^(-?\d{0,4})$"
                  extensions:TextBoxRegex.ValidationMode="Dynamic" />
 
-        <TextBlock HorizontalAlignment="Left" Margin="509,92,0,0" Text="BucketSize:" TextWrapping="Wrap"
-                   VerticalAlignment="Top" Width="76" />
-        <ComboBox x:Name="bucketSizeComboBox" HorizontalAlignment="Left" Margin="588,86,0,0" VerticalAlignment="Top"
+        <TextBlock HorizontalAlignment="Left" Margin="252,88,0,0" Text="GroupSize" TextWrapping="Wrap"
+                   VerticalAlignment="Top" Width="auto" />
+        <ComboBox x:Name="bucketSizeComboBox" HorizontalAlignment="Left" Margin="252,113,0,0" VerticalAlignment="Top"
                   ItemsSource="{Binding BucketSizes, Mode=OneWay}"
                   SelectedValue="{Binding SelectedBucketSize, Mode=TwoWay}" />
 
 
-        <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="7,132,0,0" VerticalAlignment="Top"
-                 TextWrapping="Wrap" Text="{Binding Report, Mode=OneWay}" Height="276" Width="300" IsReadOnly="True"
+        <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="16,150,0,0" VerticalAlignment="Top"
+                 TextWrapping="Wrap" Text="{Binding Report, Mode=OneWay}" Height="313" Width="300" IsReadOnly="True"
                  AutomationProperties.Name="summaryTextBlock" />
 
 
         <Button x:Name="addDataButton" Command="{Binding AddWeatherDataCommand, Mode=OneTime}" Content="Add Data"
-                HorizontalAlignment="Left" Margin="7,413,0,0"
+                HorizontalAlignment="Left" Margin="16,468,0,0"
                 VerticalAlignment="Top" />
         <Button x:Name="clearDataButton"
                 Command="{Binding ClearAllDataCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Content="Clear Data" HorizontalAlignment="Left" Margin="563,413,0,0"
+                Content="Clear Data" HorizontalAlignment="Left" Margin="227,468,0,0"
                 VerticalAlignment="Top" />
-        <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="276" VerticalAlignment="Top" Width="340" Margin="312,132,0,0"  >
-            <ListViewItem HorizontalAlignment="Stretch" Height="46" Margin="0,0,0,0" VerticalAlignment="Stretch">
+        <TextBlock Text="Date" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" HorizontalTextAlignment="Center" Width="71" Margin="350,125,0,0"/>
+        <TextBlock Text="High" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" HorizontalTextAlignment="Center" Width="80" Margin="448,125,0,0"/>
+        <TextBlock Text="Low" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" HorizontalTextAlignment="Center" Width="80" Margin="528,125,0,0"/>
+        <TextBlock Text="Precipitation" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"  HorizontalTextAlignment="Center" Width="90" Margin="607,125,0,0" />
+
+        <ListView HorizontalAlignment="Left" ItemsSource="{Binding Path=Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="313" VerticalAlignment="Top" Width="423" Margin="344,150,0,0" BorderThickness="2" BorderBrush="DarkGray" >
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Height="auto">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="85"/>
-                                <ColumnDefinition Width="85"/>
-                                <ColumnDefinition Width="85"/>
-                                <ColumnDefinition Width="85"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Date, Mode=TwoWay, Converter={StaticResource DateTimeConverter}}" HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Column="1" Text="{Binding High, Mode=TwoWay}" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="2" Text="{Binding Low, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Column="3" Text="{Binding Precipitation, Mode=TwoWay}" HorizontalAlignment="Center" />
-                        </Grid>
-                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="83"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Date, Mode=TwoWay, Converter={StaticResource DateTimeConverter}}" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="1" Text="{Binding High, Mode=TwoWay}" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="{Binding Low, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="{Binding Precipitation, Mode=TwoWay}" HorizontalAlignment="Center" />
+                    </Grid>
                 </DataTemplate>
-            </ListViewItem>
+            </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Height" Value="20" />
-                    <Setter Property="MinHeight" Value="20" />
+                    <Setter Property="Height" Value="21" />
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="FlowDirection" Value="LeftToRight" />
                 </Style>
             </ListView.ItemContainerStyle>
 
         </ListView>
-        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Years, Mode=TwoWay}" SelectedItem="{Binding SelectedYearFilter, Mode=TwoWay}" Margin="281,408,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Years, Mode=TwoWay}" SelectedItem="{Binding SelectedYearFilter, Mode=TwoWay}" Margin="703,113,0,0" VerticalAlignment="Top"/>
+        <Button Content="Edit Day" HorizontalAlignment="Left" Margin="344,468,0,0" VerticalAlignment="Top"/>
+        <Button Content="Delete Day" HorizontalAlignment="Left" Margin="674,468,0,0" VerticalAlignment="Top"/>
+
+        <!--<TextBlock HorizontalAlignment="Left" Margin="344,125,0,0" Text="Date" TextWrapping="Wrap" VerticalAlignment="Top"/>-->
+
+        <TextBlock HorizontalAlignment="Left" Margin="722,88,0,0" Text="Year" TextWrapping="Wrap" VerticalAlignment="Top" />
 
     </Grid>
 </Page>
