@@ -578,15 +578,6 @@ namespace WeatherDataAnalysis.Model
             return value;
         }
 
-        /// <summary>
-        /// Finds all years.
-        /// </summary>
-        /// <returns>A collections of all the years in the collection</returns>
-        public IEnumerable<int> FindAllYears()
-        {
-            return this.WeatherCollection.Select(x => x.Date.Year).Distinct();
-        }
-
         #endregion
     }
 }

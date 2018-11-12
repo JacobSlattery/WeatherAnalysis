@@ -30,10 +30,9 @@ namespace WeatherDataAnalysis.View.Report
         /// </summary>
         /// <param name="weatherCollection">The <see cref="WeatherDataCollection" /> data is retrieved from.</param>
         /// <exception cref="ArgumentNullException">WeatherCollection - Cannot make a report builder with a null weather collection</exception>
-        public ReportBuilder(WeatherDataCollection weatherCollection)
+        public ReportBuilder(ICollection<WeatherData> weatherCollection)
         {
-            this.weatherCollection = weatherCollection ?? throw new ArgumentNullException(nameof(weatherCollection),
-                                         "Cannot make a report builder with a null weather collection");
+            this.weatherCollection = new WeatherDataCollection(weatherCollection);
 
             this.monthList = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
         }

@@ -39,14 +39,14 @@ namespace WeatherDataAnalysis.DataTier
         #region Methods
 
         /// <summary>
-        ///     Reads the file and converts the data into a <see cref="WeatherDataCollection" />.
+        ///     Reads the file and converts the data into a <see cref="ICollection{WeatherData}" />.
         /// </summary>
         /// <param name="weatherDataFile">The weather data file.</param>
         /// <returns>
-        ///     A <see cref="WeatherDataCollection" /> representing the file's weather data
+        ///     A <see cref="ICollection{WeatherData}" /> representing the file's weather data
         /// </returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public async Task<WeatherDataCollection> ReadFileToWeatherCollection(StorageFile weatherDataFile)
+        public async Task<ICollection<WeatherData>> ReadFileToWeatherCollection(StorageFile weatherDataFile)
         {
             if (weatherDataFile == null)
             {
@@ -58,9 +58,9 @@ namespace WeatherDataAnalysis.DataTier
             return this.parseIntoWeatherCollection(rawWeatherData);
         }
 
-        private WeatherDataCollection parseIntoWeatherCollection(string rawWeatherData)
+        private ICollection<WeatherData> parseIntoWeatherCollection(string rawWeatherData)
         {
-            var weatherCollection = new WeatherDataCollection();
+            var weatherCollection = new Collection<WeatherData>();
             var rows = rawWeatherData.Split(Environment.NewLine);
 
             var lineCount = 0;
